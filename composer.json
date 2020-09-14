@@ -1,0 +1,41 @@
+{
+    "name": "Gael-Dedenis/blog-jean-forteroche",
+    "version": "0.1",
+    "type": "project",
+    "description": "Blog d'un écrivain fictif dans le cadre d'une formation de Développeur Web Junior",
+    "keywords": [
+      "pedagogic",
+      "web",
+      "php"
+    ],
+    "homepage": "https://github.com/Gael-Dedenis/blog-jean-forteroche",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Gaël Dedenis",
+        "email": "gaeldedenis01@laposte.net",
+        "role": "Web Developer Junior"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "App\\": "src/"
+      }
+    },
+    "require": {
+      "php": "7.3",
+      "twig/twig": "^3.0.3"
+    },
+    
+    "config": {
+      "platform": {
+        "php": "7.3"
+      }
+    },
+    "support": {
+      "email": "gaeldedenis01@laposte.net",
+      "issues": "https://github.com/Gael-Dedenis/blog-jean-forteroche/issues",
+      "wiki": "https://github.com/Gael-Dedenis/blog-jean-forteroche/wiki",
+      "source": "https://github.com/Gael-Dedenis/blog-jean-forteroche"
+    }
+  }
