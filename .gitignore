@@ -1,0 +1,4 @@
+config/
+public/images/
+public/node_modules/
+vendor/
