@@ -42,4 +42,4 @@ Gaël Dedenis.
 
 Projet réalisé avec une Licence MIT.
 
-[![GitHub Licence](https://badgen.net/badge/github/license/Gael-Dedenis/blog-jean-forteroche)]  
+[![GitHub Licence](https://badgen.net/github/license/Gael-Dedenis/blog-jean-forteroche)]  
