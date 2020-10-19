@@ -31,12 +31,13 @@
             {
                 try
                 {
-                    self::$pdo = new PDO(DB_HOST, DB_USER, DB_PASS);
+                    self::$pdo = new PDO(DB_HOST, DB_USER, DB_PASS, array(PDO::ATTR_MODE => PDO::ERRMODE_WARNING));
                     self::$pdo->exec("SET NAMES UTF8");
                 }
-                catch (Exception $error)
+                catch (PDOException $e)
                 {
-                    die("Erreur : " . $error->getMessage());
+                    echo "Échec de la connexion : " . $e->getMessage();
+                    exit;
                 }
             }
 
