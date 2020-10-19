@@ -29,8 +29,15 @@
 
             if (self::$pdo === null)
             {
-                self::$pdo = new PDO(DB_HOST, DB_USER, DB_PASS);
-                self::$pdo->exec("SET NAMES UTF8");
+                try
+                {
+                    self::$pdo = new PDO(DB_HOST, DB_USER, DB_PASS);
+                    self::$pdo->exec("SET NAMES UTF8");
+                }
+                catch (Exception $error)
+                {
+                    die("Erreur : " . $error->getMessage());
+                }
             }
 
             return self::$pdo;
