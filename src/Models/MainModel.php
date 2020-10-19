@@ -4,7 +4,7 @@
 
     /**
      * Classe MainModel
-     * Création des Queries pour le service CRUD.
+     * Création des Queries et service CRUD.
      * @package App\Models
     */
     abstract class MainModel
