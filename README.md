@@ -1,5 +1,7 @@
 # blog-jean-forteroche 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/55c8f84df7db47eca83b36a6060d43d1)](https://app.codacy.com/gh/Gael-Dedenis/blog-jean-forteroche?utm_source=github.com&utm_medium=referral&utm_content=Gael-Dedenis/blog-jean-forteroche&utm_campaign=Badge_Grade)
+
 ## P4 - Openclassrooms - PHP
 
 Dans le cadre de ce projet 4, nous aborderons le langage PHP et MYSQL essentiellement. Ainsi nous nous retrouverons dans la peau d'un développeur Back-End junior. 
