@@ -36,7 +36,8 @@
                 }
                 catch (PDOException $e)
                 {
-                    echo "Échec de la connexion : " . $e->getMessage();
+                    $reponse = "Échec de la connexion : " . $e->getMessage();
+                    echo filter_var($reponse);
                 }
             }
 
