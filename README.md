@@ -2,7 +2,8 @@
 
 ## P4 - Openclassrooms - PHP
 
-Dans le cadre de ce projet 4, nous aborderons le langage PHP et MYSQL essentiellement. Ainsi nous nous retrouverons dans la peau d'un développeur Back-End junior. 
+Dans le cadre de ce projet 4, nous aborderons le langage PHP et MYSQL essentiellement. Ainsi nous nous retrouverons dans la peau d'un développeur Back-End junior.  
+<a href="https://codeclimate.com/github/Gael-Dedenis/blog-jean-forteroche/maintainability"><img src="https://api.codeclimate.com/v1/badges/7d54e81b285872da8e3c/maintainability" /></a> [![Codacy Badge](https://app.codacy.com/project/badge/Grade/daca351442524974b0f5a870f9e830ae)](https://www.codacy.com/gh/Gael-Dedenis/blog-jean-forteroche/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Gael-Dedenis/blog-jean-forteroche&amp;utm_campaign=Badge_Grade)
 
 ## Sommaire
 
