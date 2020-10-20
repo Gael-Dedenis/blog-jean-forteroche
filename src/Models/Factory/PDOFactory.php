@@ -37,7 +37,6 @@
                 catch (PDOException $e)
                 {
                     echo "Échec de la connexion : " . $e->getMessage();
-                    exit;
                 }
             }
 
