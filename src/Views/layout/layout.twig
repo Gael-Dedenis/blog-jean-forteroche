@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+            <!-- .......... Title ........... -->
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+
+            <!-- .......... Meta OpenGraph ........... -->
+        <meta property="og.type"        content="website">
+        <meta property="og:title"       content="Blog de Jean Forteroche">
+        <meta property="og:language"    content="fr">
+        <meta property="og:url"         content="https://jeanforteroche.gael-dedenis.fr">
+        <meta property="og:image"       content="../public/images/meta.jpg">
+        <meta property="og:description" content="Blog de Jean Forteroche, retrouvez y les derniers épisodes de son prochain roman.">
+        <meta property="og:author"      content="Gael Dedenis">
+
+        <!-- ........... Meta Twitter Card ........... -->
+        <meta name="twitter:card"        content="summary">
+        <meta name="twitter:title"       content="Blog de Jean Forteroche">
+        <meta name="twitter:language"    content="fr">
+        <meta name="twitter:site"        content="https://jeanforteroche.gael-dedenis.fr">
+        <meta name="twitter:image"       content="../public/images/meta.jpg">
+        <meta name="twitter:description" content="Blog de Jean Forteroche, retrouvez y les derniers épisodes de son prochain roman.">
+        <meta name="twitter:creator"     content="Gael Dedenis">
+
+        <!-- ........... Css ........... -->
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+        <link rel="stylesheet" href="../public/css/style.css">
+
+    </head>
+
+    <body>
+
+        <header>
+
+            <h1>Blog de Jean Forteroche</h1>
+
+            <figure>
+                <img src="../public/images/into_the_wild.jpg" alt="Photo du célèbre bus de 'Into the wild' en Alaska.">
+                <figcaption>
+                    <blockquote>
+                        <p>
+                            Un premier pas vers l'inconnu, peut entrainer un magnifique voyage.
+                        </p>
+                        <footer> -Jean Forteroche, Billet simple pour l'Alaska
+                    </blockquote>
+                </figcaption>
+            </figure>
+
+            <!-- ........... Nav Bar ........... -->
+            {{ include(__DIR__ . "/navbar.twig") }}
+
+        </header>
+
+        <!-- ........... Contenu Principal........... -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- ........... Footer ........... -->
+        {{ include(__DIR__ . "/footer.twig") }}
+
+        {% block script %}{% endblock %}
+
+    </body>
+
+</html>
