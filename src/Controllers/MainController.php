@@ -7,6 +7,8 @@
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
 
+    require_once "../config/config_dev.php";
+
     /**
      * Classe MainController
      * @package App\Controller
@@ -22,13 +24,9 @@
          * constructor MainController
          * @param Environment $twig
          */
-        public function __construct(Environment $twig)
+        public function __construct()
         {
-            parent::__construct();
-
             $this->twig = $twig;
-            $twig->addGlobal("session", $_SESSION);
-            $this->twig->addFilter( new \Twig\twigFilter(FILTER_NL2BR));
         }
 
         /**
@@ -61,8 +59,8 @@
          * @throws RuntimeError
          * @throws SyntaxError
          */
-        public function render(string $view, array $params = [])
+        public function render(string $views, array $params = [])
         {
-            return $this->twig->render($view, $params);
+            return $this->twig->render($views, $params);
         }
     }
