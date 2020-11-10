@@ -2,15 +2,19 @@
 
     <ul>
 
-        {% if session.users is defined and session.users == "1" %}
-        <!-- ..... ..... Si l'utilisateur est un admin ..... ..... -->
-
             <li>
                 <a href="{{ url("home") }}"             title="Accueil">Accueil</a>
             </li>
             <li>
                 <a href="{{ url("posts") }}"            title="Touts les chapitres">Chapitres</a>
             </li>
+            <li>
+                <a href="{{ url("contact") }}"          title="Me contacter">Contact</a>
+            </li>
+
+        {% if session.users is defined and session.users == "1" %}
+        <!-- ..... ..... Si l'utilisateur est un admin ..... ..... -->
+
             <li>
                 <a href="{{ url("administration") }}"   title="Administration">Administration</a>
             <li>
@@ -22,15 +26,6 @@
         <!-- ..... ..... Si l'utilisateur est un membre ..... ..... -->
 
             <li>
-                <a href="{{ url("home") }}"             title="Accueil">Accueil</a>
-            </li>
-            <li>
-                <a href="{{ url("posts") }}"            title="Touts les chapitres">Chapitres</a>
-            </li>
-            <li>
-                <a href="{{ url("contact") }}"          title="Me contacter">Contact</a>
-            </li>
-            <li>
                 <a href="{{ url("compte") }}"           title="Mon compte">Mon compte</a>
             </li>
             <li>
@@ -40,15 +35,7 @@
         {% else %}
         <!-- ..... ..... visiteur ou utilisateur par défaut ..... ..... -->
 
-            <li>
-                <a href="{{ url("home") }}"             title="Accueil">Accueil</a>
-            </li>
-            <li>
-                <a href="{{ url("posts") }}"            title="Touts les chapitres">Chapitres</a>
-            </li>
-            <li>
-                <a href="{{ url("contact") }}"          title="Me contacter">Contact</a>
-            </li>
+
             <li>
                 <a href="{{ url("connexion") }}"        title="Connexion">Connexion</a>
             </li>
