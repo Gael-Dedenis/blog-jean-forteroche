@@ -1,0 +1,54 @@
+{% extends "layout/layout.twig" %}
+
+{% block title %} {{ post.title }} {% endblock %}
+
+{% block content %}
+
+    <article>
+        <h2>Chapitre: {{ post.title }}</h2>
+
+        <p>
+            {{ post.content|nl2br}}
+        </p>
+    </article>
+
+    <section>
+        <h3>commentaires</h3>
+        <ul>
+            {% for comment in comments %}
+                {% if comment.reported == 1 %}
+                    <!-- On affiche rien car le commentaire a été signaler -->
+                {% else %}
+                    <li>
+                        <p>{{ comment.content }}</p>
+                        <p>Par <span>{{ comment.user_id}}</span> le <span>{{ comment.created_date }}</span>.</p>
+                        <button type="button">Signaler</button>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </section>
+
+    {% if session.users is defined %}
+
+        <section>
+            <h3>Ajouter un commentaire</h3>
+                <form action="{{ url('comments!create',{'id':post.id}) }}" method="POST">
+                    <label for="content">Votre commentaire</label>
+                    <textarea id="content" name="content" rows="8" cols="80"></textarea>
+                    <button type="submit">Envoyer</button>
+                </form>
+        </section>
+
+    {% else %}
+
+    {% endif %}
+
+    <nav>
+        <ul>
+            <li><a href="{{ url('allpost') }}">Retour aux chapitres</a></li>
+            <li><a href="{{ url('home') }}">Retour à l'accueil</a></li>
+        </ul>
+    </nav>
+
+{% endblock %}
