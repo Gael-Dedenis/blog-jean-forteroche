@@ -1,0 +1,48 @@
+{% extends "layout/layout.twig" %}
+
+{% block title %}
+    Billet Simple pour l'Alaska - par Jean Forteroche
+{% endblock %}
+
+{% block content %}
+
+    <h2>Voici le dernier chapitre pour Billet Simple pour l'Alaska</h2>
+
+    <!-- ..... ..... Carousel avec slides pour les chapitres ..... ..... -->
+    <article id="carousel--container">
+
+        {% for post in posts|slice(0, 3) %}
+            <div class="carousel_diapos">
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content | nl2br }}</p>
+            </div>
+        {% endfor %}
+
+    </article>
+
+    <!-- ..... ..... Controles pour le slider ..... ..... -->
+    <ul id="carousel-controls">
+
+        <li>
+            <i id="controls__previous" class="fas fa-arrow-left"></i>
+        </li>
+        <li>
+            <i id="controls__play" class="fas fa-play"></i>
+        </li>
+        <li>
+            <i id="controls__stop" class="fas fa-pause"></i>
+        </li>
+        <li>
+            <i id="controls__next" class="fas fa-arrow-right"></i>
+        </li>
+
+    </ul>
+
+{% endblock %}
+
+{% block script %}
+
+    <script src="../public/js/Carousel.js"></script>
+    <script src="../public/js/script.js"></script>
+
+{% endblock %}
