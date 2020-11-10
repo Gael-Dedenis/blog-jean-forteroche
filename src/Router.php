@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Controllers;
+    namespace App;
 
     use Twig\Environment;
     use Twig\Extension\DebugExtension;
@@ -44,13 +44,12 @@
          */
         public function setEnvironment()
         {
-            $this->twig = new Environment(new FilesystemLoader("../src/View"), array(
+            $this->twig = new Environment(new FilesystemLoader("../src/Views"), array(
                 "cache" => false,
                 "debug" => true
             ));
 
             $this->twig->addExtension(new DebugExtension());
-            $this->$twig->addFilter(FILTER_NL2BR);
         }
 
         /**
@@ -77,10 +76,10 @@
         public function setController()
         {
             $this->controller = ucfirst(\strtolower($this->controller)) . "controller";
-            $this->controller = self::DEFAULT_PATH . $this->controller;
+            $this->controller = DEFAULT_PATH . $this->controller;
 
             if (!class_exists($this->controller)) {
-                $this->controller = self::DEFAULT_PATH . self::DEFAULT_CONTROLLER;
+                $this->controller = DEFAULT_PATH . DEFAULT_CONTROLLER;
             }
         }
 
@@ -94,7 +93,7 @@
 
             if (!method_exists($this->controller, $this->method))
             {
-                $this->method = self::LAUNCH_METHOD;
+                $this->method = LAUNCH_METHOD;
             }
         }
 
