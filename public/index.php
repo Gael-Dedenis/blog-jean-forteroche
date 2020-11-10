@@ -6,8 +6,8 @@
     /* Appel de l'autoload */
     require_once "../vendor/autoload.php";
 
+    Debugger::enable();
+
     /* Création du routeur */
     $router = new Router();
     $router->run();
-
-    Debugger::enable();
