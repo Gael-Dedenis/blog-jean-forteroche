@@ -25,20 +25,13 @@
          */
         public static function getPDO()
         {
-            require_once "../config/config_dev.php";
 
             if (self::$pdo === null)
             {
-                try
-                {
-                    self::$pdo = new PDO(DB_HOST, DB_USER, DB_PASS, array(PDO::ATTR_MODE => PDO::ERRMODE_WARNING));
+
+                    self::$pdo = new PDO(DB_HOST, DB_USER, DB_PASS, DB_OPTIONS);
                     self::$pdo->exec("SET NAMES UTF8");
-                }
-                catch (PDOException $e)
-                {
-                    $reponse = "Échec de la connexion : " . $e->getMessage();
-                    echo filter_var($reponse);
-                }
+
             }
 
             return self::$pdo;
