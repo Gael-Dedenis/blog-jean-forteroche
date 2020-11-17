@@ -30,7 +30,7 @@
     </section>
 
     {% if session.users is defined %}
-
+    <!-- Possibilité d'ajout de commentaire seulement si l'utilisateur est log -->
         <section>
             <h3>Ajouter un commentaire</h3>
                 <form action="{{ url('comments!create',{'id':post.id}) }}" method="POST">
