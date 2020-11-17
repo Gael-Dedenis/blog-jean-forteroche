@@ -2,10 +2,6 @@
 
     namespace App;
 
-    use Twig\Environment;
-    use Twig\Extension\DebugExtension;
-    use Twig\Loader\FilesystemLoader;
-
     require_once "../config/config_dev.php";
 
     /**
@@ -32,24 +28,9 @@
          */
         public function __construct()
         {
-            $this->setEnvironment();
             $this->parseUrl();
             $this->setController();
             $this->setMethod();
-        }
-
-        /**
-         * Mise en place environement Twig
-         * @return mixed|void
-         */
-        public function setEnvironment()
-        {
-            $this->twig = new Environment(new FilesystemLoader("../src/Views"), array(
-                "cache" => false,
-                "debug" => true
-            ));
-
-            $this->twig->addExtension(new DebugExtension());
         }
 
         /**
@@ -93,7 +74,7 @@
 
             if (!method_exists($this->controller, $this->method))
             {
-                $this->method = LAUNCH_METHOD;
+                $this->method = DEFAULT_METHOD;
             }
         }
 

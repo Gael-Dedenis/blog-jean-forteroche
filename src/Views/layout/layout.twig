@@ -57,7 +57,7 @@
             </figure>
 
             <!-- ........... Nav Bar ........... -->
-            {{ include(__DIR__ . "/navbar.twig") }}
+            {{ include ("layout/navbar.twig") }}
 
         </header>
 
@@ -67,7 +67,7 @@
         </main>
 
         <!-- ........... Footer ........... -->
-        {{ include(__DIR__ . "/footer.twig") }}
+        {{ include ("layout/footer.twig") }}
 
         {% block script %}{% endblock %}
 

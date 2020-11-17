@@ -1,18 +1,18 @@
 <?php
 
-    namespace App\Controller;
+    namespace App\Controllers;
 
-    use App\Model\Factory\ModelFactory;
-
+    use App\Models\Factory\ModelFactory;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
 
     /**
-     * Classe SelectedPostController
+     * Class PostsController
+     * Page avec touts les posts.
      * @package App\Controller
      */
-    class SelectedPostController extends MainController
+    class PostsController extends MainController
     {
         /**
          * @return string
@@ -20,31 +20,11 @@
          * @throws RuntimeError
          * @throws SyntaxError
          */
-        public function launchMethod()
+        public function defaultMethod()
         {
-            $posts = ModelFactory::getModel('Posts')->listData();
-            $comments = ModelFactory::getModel('Comments')->listData();
+            $allPosts = array(ModelFactory::getModel('Posts')->listData());
 
-            return $this->render("post.twig", [
-                'posts' => $posts,
-                'comments' => $comments
-            ]);
+            return $this->render('home.twig', ['posts' => $allPosts]);
         }
 
-        /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-        */
-        public function readMethod()
-        {
-            $posts = ModelFactory::getModel('Posts')->readData($this->get['id']);
-            $comments = ModelFactory::getModel('Comments')->listData($this->get['id'], 'post_id');
-
-            return $this->render('fullpost.twig', [
-                'post' => $posts,
-                'comments' => $comments
-            ]);
-        }
     }

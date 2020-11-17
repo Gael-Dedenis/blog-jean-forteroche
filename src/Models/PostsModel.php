@@ -2,7 +2,7 @@
 
     namespace App\Models;
 
-    use App\Models\Factory\PDOFactory;
+    use App\Models\MainModel;
 
     /**
      * Classe PostsModel

@@ -3,6 +3,7 @@
     namespace App\Controllers;
 
     use Twig\Environment;
+    use Twig\Loader\FilesystemLoader;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
@@ -26,7 +27,19 @@
          */
         public function __construct()
         {
-            $this->twig = $twig;
+            $this->setEnvironment();
+        }
+
+        /**
+         * Mise en place environement Twig
+         * @return mixed|void
+         */
+        public function setEnvironment()
+        {
+            $this->twig = new Environment(new FilesystemLoader("../src/Views"), array(
+                "cache" => false,
+                "debug" => true
+            ));
         }
 
         /**
