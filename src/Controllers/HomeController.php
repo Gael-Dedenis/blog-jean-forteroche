@@ -1,29 +1,32 @@
 <?php
 
-    namespace App\Controllers;
+namespace App\Controllers;
 
-    use App\Models\Factory\ModelFactory;
+use App\Models\Factory\ModelFactory;
+use App\Controllers\MainController;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
-    use Twig\Error\LoaderError;
-    use Twig\Error\RuntimeError;
-    use Twig\Error\SyntaxError;
-
+/**
+ * Class HomeController
+ * appel la page Home
+ * @package App\Controller
+ */
+class HomeController extends MainController
+{
     /**
-     * Classe HomeController
-     * @package App\Controllers
+     * Rendu de la vue Home
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    class HomeController extends MainController
+    public function defaultMethod()
     {
-        /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-         */
-        public function launchMethod()
-        {
-            $lastPost = array_reverse(ModelFactory::getModel('Posts')->listData());
+        $lastPost = array_reverse(array(ModelFactory::getModel('Posts')->listData()));
 
-            return $this->render('home.twig', ['posts' => $lastPost]);
-        }
+    return $this->render('home.twig', ['posts' => $lastPost]);
     }
+
+}
