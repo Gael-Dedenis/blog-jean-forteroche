@@ -6,6 +6,7 @@
     /* Appel de l'autoload */
     require_once "../vendor/autoload.php";
 
+    require_once "../config/config_dev.php";
     Debugger::enable();
 
     /* Création du routeur */
