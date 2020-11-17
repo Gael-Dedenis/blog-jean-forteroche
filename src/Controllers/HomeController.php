@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Factory\ModelFactory;
-use App\Controllers\MainController;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
