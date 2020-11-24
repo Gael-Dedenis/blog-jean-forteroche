@@ -8,11 +8,11 @@
     use Twig\Error\SyntaxError;
 
     /**
-     * Class PostsController
+     * Class AllPostsController
      * Page avec touts les posts.
      * @package App\Controller
      */
-    class PostsController extends MainController
+    class AllPostsController extends MainController
     {
         /**
          * @return string
@@ -22,9 +22,9 @@
          */
         public function defaultMethod()
         {
-            $allPosts = array(ModelFactory::getModel('Posts')->listData());
+            $allPosts = (ModelFactory::getModel('Posts')->listData());
 
-            return $this->render('home.twig', ['posts' => $allPosts]);
+            return $this->render('allposts.twig', ['posts' => $allPosts]);
         }
 
     }
