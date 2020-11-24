@@ -6,47 +6,46 @@
 
 {% endblock %}
 
+{% block header %}
+    <div class="container-md">
+        <h1 class="mg-y text-center text-underline">Bienvenue sur le blog de Jean Forteroche</h1>
+
+        <figure class="container border border-primary rounded-lg bg-my-lightblue">
+            <img src="../public/images/into_the_wild.jpg" class="img-fluid rounded-lg mg-y" alt="Photo du célèbre bus de 'Into the wild' en Alaska.">
+            <figcaption>
+                <blockquote>
+                    <p>
+                        Un premier pas vers l'inconnu, peut entrainer des magnifiques voyages.
+                    </p>
+                    <footer> -Jean Forteroche, Billet simple pour l'Alaska
+                </blockquote>
+            </figcaption>
+        </figure>
+    </div>
+{% endblock %}
+
 {% block content %}
 
     <body>
-        <h2>Voici le dernier chapitre pour Billet Simple pour l'Alaska</h2>
+        <h2 class="mg-y text-center text-underline">Voici les trois derniers chapitres pour Billet Simple pour l'Alaska</h2>
 
-        <!-- ..... ..... Carousel avec slides pour les chapitres ..... ..... -->
-        <article id="carousel--container">
+            <article class="row justify-content-around">
 
-            {% for post in posts|slice(0, 3) %}
-                <div class="carousel_diapos">
-                    <h3>{{ post.title }}</h3>
-                    <p>{{ post.content | nl2br }}</p>
-                </div>
-            {% endfor %}
+                {% for post in posts|slice(0, 3) %}
 
-        </article> 
+                    <section class="col-md-11 col-lg-5 col-xl-3">
 
-        <!-- ..... ..... Controles pour le slider ..... ..... -->
-        <ul id="carousel-controls">
+                        <h3 class="border border-primary rounded-lg bg-my-lightblue text-center text-underline">{{ post.title }}</h3>
+                        <p>{{ post.content|nl2br }}</p>
 
-            <li>
-                <i id="controls__previous" class="fas fa-arrow-left"></i>
-            </li>
-            <li>
-                <i id="controls__play" class="fas fa-play"></i>
-            </li>
-            <li>
-                <i id="controls__stop" class="fas fa-pause"></i>
-            </li>
-            <li>
-                <i id="controls__next" class="fas fa-arrow-right"></i>
-            </li>
+                    </section>
 
-        </ul>
+                {% endfor %}
+
+            </article>
+
     </body>
 
 {% endblock %}
 
-{% block script %}
-
-    <script src="../public/js/Carousel.js"></script>
-    <script src="../public/js/script.js"></script>
-
-{% endblock %}
+{% block script %}{% endblock %}
