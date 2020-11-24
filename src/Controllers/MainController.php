@@ -23,7 +23,7 @@
 
         /**
          * constructor MainController
-         * @param Environment $twig
+         * @param Environment $twign
          */
         public function __construct()
         {
@@ -31,7 +31,8 @@
         }
 
         /**
-         * Mise en place environement Twig
+         * Mise en place environement Twig.(l.40)
+         * Ajouts de fonctionnalités pour les Vues Twig.(l.44)
          * @return mixed|void
          */
         public function setEnvironment()
@@ -40,9 +41,12 @@
                 "cache" => false,
                 "debug" => true
             ));
+            $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+            $this->twig->addExtension(new ExtensionFeaturesTwig());
         }
 
         /**
+         * Retourne l'url construite de la page.
          * @param string $page
          * @param array $params
          * @return string
@@ -54,6 +58,7 @@
         }
 
         /**
+         * Retourne l'url de redirection.
          * @param string $page
          * @param array $params
          */

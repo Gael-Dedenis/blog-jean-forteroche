@@ -2,19 +2,19 @@
 
     namespace App\Controllers;
 
-    use App\Models\Factory\ModelFactory;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
 
     /**
-     * Class PostsController
-     * Page avec touts les posts.
+     * Class AboutMeController
+     * appel la page Qui suis-je ?
      * @package App\Controller
      */
-    class PostsController extends MainController
+    class AboutMeController extends MainController
     {
         /**
+         * Rendu de la vue Qui suis-je
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
@@ -22,9 +22,6 @@
          */
         public function defaultMethod()
         {
-            $allPosts = array(ModelFactory::getModel('Posts')->listData());
-
-            return $this->render('home.twig', ['posts' => $allPosts]);
+            return $this->render('aboutme.twig');
         }
-
     }

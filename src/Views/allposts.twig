@@ -2,13 +2,14 @@
 
 {% block title %}
 
-    Billet Simple pour l'Alaska - par Jean Forteroche
+    Touts les chapitres -Billet simple pour l'Alaska.
 
 {% endblock %}
 
 {% block header %}
     <div class="container-md">
-        <h1 class="mg-y text-center text-underline">Bienvenue sur le blog de Jean Forteroche</h1>
+
+        <h1 class="mg-y text-center">Tous les chapitres -Billet simple pour l'Alaska</h1>
 
         <figure class="container border border-primary rounded-lg bg-my-lightblue">
             <img src="../public/images/into_the_wild.jpg" class="img-fluid rounded-lg mg-y" alt="Photo du célèbre bus de 'Into the wild' en Alaska.">
@@ -21,31 +22,29 @@
                 </blockquote>
             </figcaption>
         </figure>
+
     </div>
 {% endblock %}
 
 {% block content %}
+    <body class="container">
 
-    <body>
-        <h2 class="mg-y text-center text-underline">Voici les trois derniers chapitres pour Billet Simple pour l'Alaska</h2>
+        <h2 class="mg-y text-center text-underline">Sélectionnez le chapitre que vous voulez lire:</h2>
 
-            <article class="row justify-content-around">
+            <ul class="list-group list-group-flush">
 
-                {% for post in posts|slice(0, 3) %}
+                {% for post in posts %}
 
-                    <section class="col-md-11 col-lg-5 col-xl-3">
+                    <li class="list-group-item">
 
-                        <h3 class="border border-primary rounded-lg bg-my-lightblue text-center text-underline">{{ post.title }}</h3>
-                        <p>{{ post.content|nl2br }}</p>
+                        <a href="{{ url('fullpost!read', {'id': post.id}, {'id': comment.post_id}) }}">{{ post.title }}</a>
 
-                    </section>
+                    </li>
 
                 {% endfor %}
 
-            </article>
+            </ul>
 
     </body>
 
 {% endblock %}
-
-{% block script %}{% endblock %}
