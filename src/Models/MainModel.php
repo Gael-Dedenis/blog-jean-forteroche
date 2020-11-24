@@ -48,6 +48,10 @@
 
                 return $this->database->getAllData($query, [$value]);
             }
+
+            $query = "SELECT * FROM " . $this->table;
+
+            return $this->database->getAllData($query);
         }
 
         /**
