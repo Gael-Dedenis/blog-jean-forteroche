@@ -18,7 +18,8 @@
         public function getFunctions()
         {
             return array(
-                new TwigFunction('url', array($this, 'url'))
+                new TwigFunction('url', array($this, 'url')),
+                new TwigFunction("redirect", array($this, "redirect"))
             );
         }
 
@@ -32,5 +33,35 @@
         {
             $params['access'] = $page;
             return 'index.php?' . http_build_query($params);
+        }
+
+        /**
+         * @param string $page
+         * @param array $params
+         */
+        public function redirect(string $page, array $params = [])
+        {
+            header("Location: " . $this->url($page, $params));
+
+            exit;
+        }
+
+        public function checkIsAdmin()
+        {
+            $roles = false;
+
+            if (isset($session["user"]["admin"]))
+            {
+                if ($this->session["admin"] === 1)
+                {
+                    $roles = admin;
+                }
+                elseif ($this->session["admin"] === 0)
+                {
+                    $roles = membre;
+                }
+
+                return $roles;
+            }
         }
     }
