@@ -1,9 +1,8 @@
 <?php
 
-    namespace App\Controller;
+    namespace App\Controllers;
 
-    use App\Model\Factory\ModelFactory;
-
+    use App\Models\Factory\ModelFactory;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
@@ -15,6 +14,21 @@
     class SelectedPostController extends MainController
     {
         /**
+         * @var
+        */
+        protected $post_id;
+
+        /**
+         * @var
+         */
+        protected $posts;
+
+        /**
+         * @var
+         */
+        protected $comments;
+
+        /**
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
@@ -22,29 +36,22 @@
          */
         public function defaultMethod()
         {
-            $posts = ModelFactory::getModel('Posts')->listData();
-            $comments = ModelFactory::getModel('Comments')->listData();
+            $this->post_id = $_GET['id'];
+
+            $this->getData();
 
             return $this->render("selectedpost.twig", [
-                'posts' => $posts,
+                'posts'    => $posts,
                 'comments' => $comments
             ]);
         }
 
-        /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-        */
-        public function readMethod()
+        public function getData()
         {
-            $posts = ModelFactory::getModel('Posts')->readData($this->get['id']);
-            $comments = ModelFactory::getModel('Comments')->listData($this->get['id'], 'post_id');
+            $this->posts    = ModelFactory::getModel('Posts')->listData();
+            $this->posts    = ModelFactory::getModel('Posts')->readData($this->post_id);
 
-            return $this->render('selectedpost.twig', [
-                'post' => $posts,
-                'comments' => $comments
-            ]);
+            $this->comments = ModelFactory::getModel('Comments')->listData();
         }
+
     }
