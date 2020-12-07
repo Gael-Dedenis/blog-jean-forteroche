@@ -27,24 +27,24 @@
 {% endblock %}
 
 {% block content %}
-    <section class="container">
+    <body class="container">
 
         <h2 class="mg-y text-center text-underline">Sélectionnez le chapitre que vous voulez lire:</h2>
 
-        <div class="col-3 offset-4 mt-5">
             <ul class="list-group list-group-flush">
 
                 {% for post in posts %}
 
                     <li class="list-group-item">
-                        <a href="{{ url('selectedpost', {'id': post.id}) }}">{{ post.title }}</a>
+
+                        <a href="{{ url('fullpost!read', {'id': post.id}, {'id': comment.post_id}) }}">{{ post.title }}</a>
+
                     </li>
 
                 {% endfor %}
 
             </ul>
-        </div>
 
-    </section>
+    </body>
 
 {% endblock %}

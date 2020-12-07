@@ -14,7 +14,6 @@
      */
     class AllPostsController extends MainController
     {
-
         /**
          * @return string
          * @throws LoaderError

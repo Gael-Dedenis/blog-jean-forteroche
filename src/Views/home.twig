@@ -26,25 +26,25 @@
 
 {% block content %}
 
-    <section>
+    <body>
         <h2 class="mg-y text-center text-underline">Voici les trois derniers chapitres pour Billet Simple pour l'Alaska</h2>
 
             <article class="row justify-content-around">
 
                 {% for post in posts|slice(0, 3) %}
 
-                    <div class="col-md-11 col-lg-5 col-xl-3">
+                    <section class="col-md-11 col-lg-5 col-xl-3">
 
                         <h3 class="border border-primary rounded-lg bg-my-lightblue text-center text-underline">{{ post.title }}</h3>
-                        <p class="text-justify">{{ post.content|nl2br }}</p>
+                        <p>{{ post.content|nl2br }}</p>
 
-                    </div>
+                    </section>
 
                 {% endfor %}
 
             </article>
 
-    </section>
+    </body>
 
 {% endblock %}
 
