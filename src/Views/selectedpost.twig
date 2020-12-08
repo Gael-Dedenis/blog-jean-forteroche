@@ -4,21 +4,17 @@
 
 {% block header %}
 
-    <pre>
-        {{ dump(post) }}
-    </pre>
-
     <h1 class="mg-y text-center text-underline">Lecture du {{ post.title }}</h1>
 
 {% endblock %}
 
 {% block content %}
 
-        <article class="container border border-primary rounded-lg">
+        <article class="container border border-primary rounded-lg bg-my-lightblue">
 
             <div class="container">
 
-                <p>{{ post.content|nl2br }}</p>
+                <p class="pt-3">{{ post.content|nl2br }}</p>
 
             </div>
 
@@ -45,48 +41,43 @@
                         </form>
 
                     </section>
+
                 {% endif %}
-
-                <section class="container mt-5">
-
-                    <pre>
-                        {{ dump(comments) }}
-                    </pre>
-
-                    <div class="col-3 offset-4">
-
-                        <ul class="list-group list-group-flush">
-
-                            {% for comment in comments %}
-
-                                {% if comment.reported == 1 %}
-                                    <!-- Si le commentaire est pinger "reported" on ne l'affiche pas -->
-
-                                {% endif %}
-
-                                <li class="list-group-item">
-
-                                    <p>
-
-                                        Écrit par {{ user.pseudo }}, le {{ comment.created_date }} :<br>
-                                        {{ comment.content|nl2br }}
-
-                                    </p>
-
-                            {% endfor %}
-                        
-                        </ul>
-
-                    </div>
-
-                </section>
 
             </div> 
 
         </article>
 
+        <section class="container mt-3">
+
+            <div class="col-4 offset-4">
+
+                <ul class="list-group list-group-flush">
+
+                    {% for comment in post.comments %}
+
+                        {% if comment.reported == 1 %}
+                            <!-- Si le commentaire est pinger "reported" on ne l'affiche pas -->
+
+                        {% endif %}
+
+                        <li class="list-group-item">
+
+                            <p>
+                                Écrit par {{ user.pseudo }}, le {{ comment.created_date }} :<br>
+                                {{ comment.content|nl2br }}
+                            </p>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </section>
+
         <h4 class="container mt-3">
-            <a href="{{ url('allposts') }}">Retour à la sélection de chapitre</a>
+            <a href="{{ url('posts') }}">Retour à la sélection de chapitre</a>
         </h4>
 
 {% endblock %}
