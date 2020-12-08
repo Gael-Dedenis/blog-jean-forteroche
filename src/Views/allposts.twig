@@ -37,7 +37,7 @@
                 {% for post in posts %}
 
                     <li class="list-group-item">
-                        <a href="{{ url('selectedpost', {'id': post.id}) }}">{{ post.title }}</a>
+                        <a href="{{ url('posts!read', {'id': post.id}) }}">{{ post.title }}</a>
                     </li>
 
                 {% endfor %}
