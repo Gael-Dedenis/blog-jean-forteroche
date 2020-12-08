@@ -2,53 +2,81 @@
 
 {% block title %} {{ post.title }} {% endblock %}
 
+{% block header %}
+
+    <h1 class="mg-y text-center text-underline">Lecture du {{ post.title }}</h1>
+
+{% endblock %}
+
 {% block content %}
 
-    <article>
-        <h2>Chapitre: {{ post.title }}</h2>
+        <article class="container border border-primary rounded-lg bg-my-lightblue">
 
-        <p>
-            {{ post.content|nl2br}}
-        </p>
-    </article>
+            <div class="container">
 
-    <section>
-        <h3>commentaires</h3>
-        <ul>
-            {% for comment in comments %}
-                {% if comment.reported == 1 %}
-                    <!-- On affiche rien car le commentaire a été signaler -->
-                {% else %}
-                    <li>
-                        <p>{{ comment.content }}</p>
-                        <p>Par <span>{{ comment.user_id}}</span> le <span>{{ comment.created_date }}</span>.</p>
-                        <button type="button">Signaler</button>
-                    </li>
+                <p class="pt-3">{{ post.content|nl2br }}</p>
+
+            </div>
+
+            <div class="container mt-5">
+
+                {% if users.admin is not null and users.admin is not empty and users.admin >= 0 %}
+
+                    <section class="container">
+
+                        <h3 class="text-center text-underline">Ajouter un commentaire</h3>
+
+                        <form action="{{ url('comments!create', {'id':post.id}) }}" method="post">
+
+                            <div class="form-group">
+
+                                <label for="create-Comment" class="col-sm-1 col-form-label">Commentaire</label>
+                                <div class="col-sm-5">
+                                    <textarea id="create-Comment" name="create-Comment" rows="8" cols="80"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+
+                            </div>
+
+                        </form>
+
+                    </section>
+
                 {% endif %}
-            {% endfor %}
-        </ul>
-    </section>
 
-    {% if session.users is defined %}
-    <!-- Possibilité d'ajout de commentaire seulement si l'utilisateur est log -->
-        <section>
-            <h3>Ajouter un commentaire</h3>
-                <form action="{{ url('comments!create',{'id':post.id}) }}" method="POST">
-                    <label for="content">Votre commentaire</label>
-                    <textarea id="content" name="content" rows="8" cols="80"></textarea>
-                    <button type="submit">Envoyer</button>
-                </form>
+            </div> 
+
+        </article>
+
+        <section class="container mt-3">
+
+            <div class="col-4 offset-4">
+
+                <ul class="list-group list-group-flush">
+
+                    {% for comment in post.comments %}
+
+                        {% if comment.reported == 1 %}
+                            <!-- Si le commentaire est pinger "reported" on ne l'affiche pas -->
+
+                        {% endif %}
+
+                        <li class="list-group-item">
+
+                            <p>
+                                Écrit par {{ user.pseudo }}, le {{ comment.created_date }} :<br>
+                                {{ comment.content|nl2br }}
+                            </p>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
         </section>
 
-    {% else %}
-
-    {% endif %}
-
-    <nav>
-        <ul>
-            <li><a href="{{ url('allpost') }}">Retour aux chapitres</a></li>
-            <li><a href="{{ url('home') }}">Retour à l'accueil</a></li>
-        </ul>
-    </nav>
-
+        <h4 class="container mt-3">
+            <a href="{{ url('posts') }}">Retour à la sélection de chapitre</a>
+        </h4>
 {% endblock %}
