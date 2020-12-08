@@ -19,7 +19,8 @@
         {
             return array(
                 new TwigFunction('url', array($this, 'url')),
-                new TwigFunction("redirect", array($this, "redirect"))
+                new TwigFunction("redirect", array($this, "redirect")),
+                new TwigFunction("checkRole", array($this, "checkRole"))
             );
         }
 
@@ -36,6 +37,7 @@
         }
 
         /**
+         * Permet une redirection
          * @param string $page
          * @param array $params
          */
@@ -46,22 +48,26 @@
             exit;
         }
 
-        public function checkIsAdmin()
+        /**
+         * Vérifie le role de l'utilisateur
+         * @return string
+         */
+        public function checkRole()
         {
-            $roles = false;
+            $role = "";
 
             if (isset($session["user"]["admin"]))
             {
                 if ($this->session["admin"] === 1)
                 {
-                    $roles = admin;
+                    $role = "admin";
                 }
                 elseif ($this->session["admin"] === 0)
                 {
-                    $roles = membre;
+                    $role = "membre";
                 }
 
-                return $roles;
+                return $role;
             }
         }
     }
