@@ -40,7 +40,7 @@
 
     </head>
 
-    <body class="container-fluid">
+    <body>
 
         <header>
             <!-- ........... Nav Bar ........... -->
@@ -55,14 +55,14 @@
         </header>
 
         <!-- ........... Contenu Principal........... -->
-        <main class="hight-mg-y">
+        <main class="container-fluid hight-mg-y">
 
             {% block content %}{% endblock %}
 
         </main>
 
         <!-- ........... Footer ........... -->
-        <footer class="container-fluid mt-5">
+        <footer class="container-fluid fixed-bottom">
 
             {{ include ("layout/footer.twig") }}
 
