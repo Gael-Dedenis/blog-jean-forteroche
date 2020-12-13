@@ -45,9 +45,9 @@
         {
 
 
-            $this->post = ModelFactory::getModel("Posts")->readData($_GET["id"]);
+            $this->post = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-            $this->post["comments"] = ModelFactory::getModel("Comments")->listData($_GET["id"],"post_id");
+            $this->post["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
         }
 
         /**
@@ -59,7 +59,6 @@
             /* On appel la fonction getData puis on envoie le tableau obtenue à la Vue. */
         public function readMethod()
         {
-
 
             $this->getData();
 
@@ -80,15 +79,11 @@
             */
         public function createMethod()
         {
-
-            $title   = $this->post["title"];
-            $content = $this->post["content"];
-
-            if (empty($title && $content)) {
+            if (empty($this->post)) {
                 $this->redirect("administration");
             }
 
-            $createPost = ModelFactory::getModel("Posts")->createData($title,$content);
+            $createPost = ModelFactory::getModel("Posts")->createData($this->post);
             $this->redirect("administration");
         }
 
@@ -107,17 +102,8 @@
             */
         public function deleteMethod()
         {
-
-            $id_post = $this->get["id"];
-
-            $post_comments = ModelFactory::getModel("Comments")->listData($id_post, "post_id");
-
-            if (!empty($post_comments))
-            {
-                ModelFactory::getModel("Comments")->deleteData($id_post, "post_id");
-            }
-
-            ModelFactory::getModel("Posts")->deleteData($id_post);
+            // ajouter un appel méthode suppression comments.
+            ModelFactory::getModel("Posts")->deleteData($this->get["id"]);
 
             $this->redirect("administration");
         }
@@ -136,19 +122,14 @@
             */
         public function modifyMethod()
         {
-            $modifs = [];
-
             if (!empty($modif))
             {
-                $modifs ["title"]   = post["title"];
-                $modifs ["content"] = post["content"];
-
-                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->$_GET["id"], $this->$modifs['title'], $this->$modifs["content"]);
+                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->post);
 
                 $this->redirect("administration");
             }
 
-            $this->post = ModelFactory::getModel("Posts")->readData($_GET["id"]);
+            $this->post = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
             return $this->render("modifyPost.twig", ["post" => $this->post]);
         }
