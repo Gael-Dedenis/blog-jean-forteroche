@@ -17,22 +17,44 @@
     abstract class MainController
     {
         /**
+         * @data mixed
+         */
+        protected $get = null;
+
+        /**
+         * @data mixed
+         */
+        protected $post = null;
+
+        /**
+         * @data mixed|null
+         */
+        private $session = null;
+
+        /**
+         * @data mixed
+         */
+        private $user = null;
+
+        /**
          * @var Environment
          */
         protected $twig = null;
 
         /**
          * constructor MainController
+         * @param 
          * @param Environment $twign
          */
         public function __construct()
         {
+            $this->accessGlobal();
             $this->setEnvironment();
         }
 
         /**
-         * Mise en place environement Twig.(l.40)
-         * Ajouts de fonctionnalités pour les Vues Twig.(l.44)
+         * Mise en place environement Twig.
+         * Ajouts de fonctionnalités pour les Vues Twig.
          * @return mixed|void
          */
         public function setEnvironment()
@@ -80,5 +102,19 @@
         public function render(string $views, array $params = [])
         {
             return $this->twig->render($views, $params);
+        }
+
+        /**
+         * @return mixed|void
+         */
+        public function accessGlobal() {
+            $this->get     = filter_input_array(INPUT_GET);
+            $this->post    = filter_input_array(INPUT_POST);
+
+            $this->session = filter_var_array($_SESSION);
+            if (isset($this->session['user_data']))
+            {
+                $this->user = $this->session['user_data'];
+            }
         }
     }
