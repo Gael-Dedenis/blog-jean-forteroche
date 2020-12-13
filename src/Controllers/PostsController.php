@@ -9,7 +9,6 @@
 
     /**
      * Class PostsController
-     * Page avec touts les posts.
      * @package App\Controller
      */
     class PostsController extends MainController
@@ -17,7 +16,7 @@
         /**
          * @var
         */
-        private $post = [];
+        private $chapter = [];
 
         /**
          * @return string
@@ -45,9 +44,9 @@
         {
 
 
-            $this->post = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-            $this->post["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
+            $this->chapter["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
         }
 
         /**
@@ -62,7 +61,7 @@
 
             $this->getData();
 
-            return $this->render("selectedpost.twig", ["post" => $this->post]);
+            return $this->render("selectedpost.twig", ["post" => $this->chapter]);
         }
 
         /**
@@ -79,11 +78,11 @@
             */
         public function createMethod()
         {
-            if (empty($this->post)) {
+            if (empty($this->chapter)) {
                 $this->redirect("administration");
             }
 
-            $createPost = ModelFactory::getModel("Posts")->createData($this->post);
+            $createPost = ModelFactory::getModel("Posts")->createData($this->chapter);
             $this->redirect("administration");
         }
 
@@ -124,14 +123,14 @@
         {
             if (!empty($modif))
             {
-                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->post);
+                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
 
                 $this->redirect("administration");
             }
 
-            $this->post = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-            return $this->render("modifyPost.twig", ["post" => $this->post]);
+            return $this->render("modifyPost.twig", ["post" => $this->chapter]);
         }
 
     }
