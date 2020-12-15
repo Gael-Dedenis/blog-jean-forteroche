@@ -9,7 +9,7 @@
 
     /**
      * Class PostsController
-     * @package App\Controller
+     * @package App\Controllers
      */
     class PostsController extends MainController
     {
@@ -42,8 +42,6 @@
             */
         private function getData()
         {
-
-
             $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
             $this->chapter["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
@@ -78,6 +76,12 @@
             */
         public function createMethod()
         {
+            $this->chapter = [
+                "title"   => $this->post("newTitle"),
+                "content" => $this->post("newContent"),
+                "date"    => $this->date("y-m-d h:i:s")
+            ];
+
             if (empty($this->chapter)) {
                 $this->redirect("administration");
             }
@@ -121,7 +125,13 @@
             */
         public function modifyMethod()
         {
-            if (!empty($modif))
+            $this->chapter = [
+                "title"         => $this->post("modifTitle"),
+                "content"       => $this->post("modifContent"),
+                "modified_date" => $this->date("y-m-d h:i:s")
+            ];
+
+            if (!empty($this->chapter))
             {
                 $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
 
