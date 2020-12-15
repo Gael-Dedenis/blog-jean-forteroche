@@ -14,27 +14,8 @@
      * Classe MainController
      * @package App\Controller
      */
-    abstract class MainController
+    abstract class MainController extends GlobalController
     {
-        /**
-         * @data mixed
-         */
-        protected $get = null;
-
-        /**
-         * @data mixed
-         */
-        protected $post = null;
-
-        /**
-         * @data mixed|null
-         */
-        private $session = null;
-
-        /**
-         * @data mixed
-         */
-        private $user = null;
 
         /**
          * @var Environment
@@ -48,12 +29,12 @@
          */
         public function __construct()
         {
-            $this->accessGlobal();
             $this->setEnvironment();
         }
 
         /**
          * Mise en place environement Twig.
+         * Ajout de la global Session aux Vues Twig.
          * Ajouts de fonctionnalités pour les Vues Twig.
          * @return mixed|void
          */
@@ -63,6 +44,7 @@
                 "cache" => false,
                 "debug" => true
             ));
+            $this->twig->addGlobal("session", $_SESSION);
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
             $this->twig->addExtension(new ExtensionFeaturesTwig());
         }
@@ -104,17 +86,4 @@
             return $this->twig->render($views, $params);
         }
 
-        /**
-         * @return mixed|void
-         */
-        public function accessGlobal() {
-            $this->get     = filter_input_array(INPUT_GET);
-            $this->post    = filter_input_array(INPUT_POST);
-
-            $this->session = filter_var_array($_SESSION);
-            if (isset($this->session['user_data']))
-            {
-                $this->user = $this->session['user_data'];
-            }
-        }
     }
