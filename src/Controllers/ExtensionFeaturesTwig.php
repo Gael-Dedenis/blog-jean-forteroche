@@ -44,7 +44,6 @@
         public function redirect(string $page, array $params = [])
         {
             header("Location: " . $this->url($page, $params));
-
             exit;
         }
 
@@ -56,7 +55,7 @@
         {
             $role = "";
 
-            if (!empty($session["user_data"]))
+            if (!empty($session))
             {
                 if ($this->session["user_data['admin']"] === 1)
                 {
