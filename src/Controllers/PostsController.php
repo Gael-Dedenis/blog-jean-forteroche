@@ -9,15 +9,14 @@
 
     /**
      * Class PostsController
-     * Page avec touts les posts.
-     * @package App\Controller
+     * @package App\Controllers
      */
     class PostsController extends MainController
     {
         /**
          * @var
         */
-        private $post = [];
+        private $chapter = [];
 
         /**
          * @return string
@@ -43,11 +42,9 @@
             */
         private function getData()
         {
+            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-
-            $this->post = ModelFactory::getModel("Posts")->readData($_GET["id"]);
-
-            $this->post["comments"] = ModelFactory::getModel("Comments")->listData($_GET["id"],"post_id");
+            $this->chapter["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
         }
 
         /**
@@ -60,10 +57,9 @@
         public function readMethod()
         {
 
-
             $this->getData();
 
-            return $this->render("selectedpost.twig", ["post" => $this->post]);
+            return $this->render("selectedpost.twig", ["post" => $this->chapter]);
         }
 
         /**
@@ -80,15 +76,17 @@
             */
         public function createMethod()
         {
+            $this->chapter = [
+                "title"   => $this->post("newTitle"),
+                "content" => $this->post("newContent"),
+                "date"    => $this->date("y-m-d h:i:s")
+            ];
 
-            $title   = $this->post["title"];
-            $content = $this->post["content"];
-
-            if (empty($title && $content)) {
+            if (empty($this->chapter)) {
                 $this->redirect("administration");
             }
 
-            $createPost = ModelFactory::getModel("Posts")->createData($title,$content);
+            $createPost = ModelFactory::getModel("Posts")->createData($this->chapter);
             $this->redirect("administration");
         }
 
@@ -107,17 +105,8 @@
             */
         public function deleteMethod()
         {
-
-            $id_post = $this->get["id"];
-
-            $post_comments = ModelFactory::getModel("Comments")->listData($id_post, "post_id");
-
-            if (!empty($post_comments))
-            {
-                ModelFactory::getModel("Comments")->deleteData($id_post, "post_id");
-            }
-
-            ModelFactory::getModel("Posts")->deleteData($id_post);
+            // ajouter un appel méthode suppression comments.
+            ModelFactory::getModel("Posts")->deleteData($this->get["id"]);
 
             $this->redirect("administration");
         }
@@ -136,21 +125,22 @@
             */
         public function modifyMethod()
         {
-            $modifs = [];
+            $this->chapter = [
+                "title"         => $this->post("modifTitle"),
+                "content"       => $this->post("modifContent"),
+                "modified_date" => $this->date("y-m-d h:i:s")
+            ];
 
-            if (!empty($modif))
+            if (!empty($this->chapter))
             {
-                $modifs ["title"]   = post["title"];
-                $modifs ["content"] = post["content"];
-
-                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->$_GET["id"], $this->$modifs['title'], $this->$modifs["content"]);
+                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
 
                 $this->redirect("administration");
             }
 
-            $this->post = ModelFactory::getModel("Posts")->readData($_GET["id"]);
+            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-            return $this->render("modifyPost.twig", ["post" => $this->post]);
+            return $this->render("modifyPost.twig", ["post" => $this->chapter]);
         }
 
     }

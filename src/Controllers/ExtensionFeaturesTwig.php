@@ -56,13 +56,13 @@
         {
             $role = "";
 
-            if (isset($session["user"]["admin"]))
+            if (!empty($session["user_data"]))
             {
-                if ($this->session["admin"] === 1)
+                if ($this->session["user_data['admin']"] === 1)
                 {
                     $role = "admin";
                 }
-                elseif ($this->session["admin"] === 0)
+                elseif ($this->session["user_data['admin']"] === 0)
                 {
                     $role = "membre";
                 }

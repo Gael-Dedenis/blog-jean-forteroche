@@ -14,8 +14,9 @@
      * Classe MainController
      * @package App\Controller
      */
-    abstract class MainController
+    abstract class MainController extends GlobalController
     {
+
         /**
          * @var Environment
          */
@@ -23,6 +24,7 @@
 
         /**
          * constructor MainController
+         * @param 
          * @param Environment $twign
          */
         public function __construct()
@@ -31,8 +33,9 @@
         }
 
         /**
-         * Mise en place environement Twig.(l.40)
-         * Ajouts de fonctionnalités pour les Vues Twig.(l.44)
+         * Mise en place environement Twig.
+         * Ajout de la global Session aux Vues Twig.
+         * Ajouts de fonctionnalités pour les Vues Twig.
          * @return mixed|void
          */
         public function setEnvironment()
@@ -41,6 +44,7 @@
                 "cache" => false,
                 "debug" => true
             ));
+            $this->twig->addGlobal("session", $_SESSION);
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
             $this->twig->addExtension(new ExtensionFeaturesTwig());
         }
@@ -81,4 +85,5 @@
         {
             return $this->twig->render($views, $params);
         }
+
     }
