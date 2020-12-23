@@ -8,18 +8,18 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center">Connection</h1>
+    <h1 class="mg-y text-center">Connexion à votre compte</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <form class="container" action="{{ url('connexion!default') }}" method="POST" enctype="multipart/form-data">
+    <form class="container" action="{{ url('user!default') }}" method="POST" enctype="multipart/form-data">
 
         <div class="form-group row">
 
             <label for="email" class="col-sm-1 col-form-label">email</label>
-            <input type="email" class="form-control" id="pseudo" placeholder="johndoe@lafrite.gmail" required>
+            <input type="email" class="form-control" id="email" placeholder="johndoe@lafrite.gmail" required>
 
         </div>
 

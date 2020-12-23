@@ -1,10 +1,10 @@
 {% extends "layout/layout.twig" %}
 
-{% block title %} {{ post.title }} {% endblock %}
+{% block title %} {{ chapter.title }} {% endblock %}
 
 {% block header %}
 
-    <h1 class="mg-y text-center text-underline">Lecture du {{ post.title }}</h1>
+    <h1 class="mg-y text-center text-underline">Lecture du {{ chapter.title }}</h1>
 
 {% endblock %}
 
@@ -14,7 +14,7 @@
 
             <div class="container">
 
-                <p class="pt-3">{{ post.content|nl2br }}</p>
+                <p class="pt-3">{{ chapter.content|nl2br }}</p>
 
             </div>
 
@@ -26,7 +26,7 @@
 
                         <h3 class="text-center text-underline">Ajouter un commentaire</h3>
 
-                        <form action="{{ url('comments!create', {'id':post.id}) }}" method="post">
+                        <form action="{{ url('comments!create', {'id':chapter.id}) }}" method="post">
 
                             <div class="form-group">
 
@@ -54,7 +54,7 @@
 
                 <ul class="list-group list-group-flush">
 
-                    {% for comment in post.comments %}
+                    {% for comment in chapter.comments|reverse %}
 
                         {% if comment.reported == 1 %}
                             <!-- Si le commentaire est pinger "reported" on ne l'affiche pas -->
@@ -63,10 +63,15 @@
 
                         <li class="list-group-item">
 
-                            <p>
-                                Écrit par {{ user.pseudo }}, le {{ comment.created_date }} :<br>
-                                {{ comment.content|nl2br }}
-                            </p>
+                            <div class="container">
+                                <p>
+                                    Écrit par {{ user.pseudo }}, le {{ comment.created_date }} :<br>
+                                    {{ comment.content|nl2br }}
+                                </p>
+                                <a class="btn btn-outline-danger btn-sm offset-10" href="{{ url('comments!report', {'id': comment.id})}}">
+                                    Signaler
+                                </a>
+                            </div>
 
                     {% endfor %}
 
