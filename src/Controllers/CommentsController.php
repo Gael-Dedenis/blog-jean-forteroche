@@ -26,9 +26,32 @@
          */
         public function defaultMethod()
         {
-            $this->comments = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
+            $this->comments["chapter"]  = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+            $this->comments["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
 
-            return $this->redirect("selectedpost", ["Comments" => $this->comments]);
+            return $this->render("selectedpost", ["Comments" => $this->comments]);
+        }
+
+        /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function CreateMethod()
+        {
+            $this->comments["author"]  = $this->session["user_data"["pseudo"]];
+            $this->comments["content"] = $this->post["comment_content"];
+            $this->comments["post_id"] = $this->get["id"];
+            $this->comments["user_id"] = $this->session["user_data"["id"]];
+
+            if (empty($this->comments["content"]))
+            {
+                $this->redirect("selectedpost");
+            }
+            ModelFactory::getModel("Comments")->createData($this->comments);
+
+            $this->refresh($this->comments["post_id"], $posts, "!read");
         }
 
         /**
@@ -56,7 +79,7 @@
 
             ModelFactory::getModel('Comments')->updateData($comment_id, ['reported' => 1]);
 
-            $this->redirect("selectedpost");
+            $this->refresh($this->chapter["id"], $posts, "!read");
         }
 
         /**
@@ -69,6 +92,6 @@
         {
             $this->comments = ModelFactory::getModel("Comments")->readData(["reported" => 1]);
 
-            return $this->redirect("administration", ["reported" => $this->comments]);
+            $this->redirect("administration", ["reported" => $this->comments]);
         }
     }
