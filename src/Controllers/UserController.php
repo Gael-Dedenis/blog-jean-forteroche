@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Controller;
+    namespace App\Controllers;
 
     use App\Model\Factory\ModelFactory;
     use Twig\Error\LoaderError;
@@ -38,7 +38,7 @@
         {
             if (empty($this->post["email"]) && empty($this->post["pass"]))
             {
-                $this->redirect("connexion");
+                return $this->render("connexion.twig");
             }
 
             $this->user = ModelFactory::getModel("User")->readData($this->post["email"], "email");
@@ -58,7 +58,7 @@
          * @throws RuntimeError
          * @throws SyntaxError
         */
-        public function subscribeMethod()
+        public function createMethod()
         {
             $this->user["pseudo"] = $this->post["pseudo"];
             $this->user["email"]  = $this->post["email"];
@@ -90,10 +90,22 @@
         }
 
         /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function logoutMethod()
+        {
+        $this->sessiondestroyMethod();
+        $this->redirect('home');
+        }
+
+        /**
          * Création de la session avec les données de l'utilisateur
          * @param array userData
          */
-        public function sessionMethod()
+        private function sessioncreate()
         {
             $this->session['user_data'] = [
                 'id'     => $this->user["id"],
@@ -105,15 +117,11 @@
         }
 
         /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
+         * @return void
          */
-        public function logoutMethod()
+        private function sessiondestroy()
         {
-        $this->sessionDestroy();
-        $this->redirect('home');
+            $_SESSION['users'] = [];
         }
 
     }

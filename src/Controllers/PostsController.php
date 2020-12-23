@@ -28,7 +28,7 @@
         {
             /* On récupère touts les posts dans la base de données. Puis on envoie le résultat à la Vue. */
 
-            $allPosts = (ModelFactory::getModel("Posts")->listData());
+            $allPosts = ModelFactory::getModel("Posts")->listData();
 
             return $this->render("allposts.twig", ["posts" => $allPosts]);
         }
@@ -59,7 +59,17 @@
 
             $this->getData();
 
-            return $this->render("selectedpost.twig", ["post" => $this->chapter]);
+            return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
+        }
+
+        /**
+         * @return array
+         */
+        private function getNewData()
+        {
+            $this->chapter["newTitle"]         = $this->post("newTitle");
+            $this->chapter["newContent"]       = $this->post("newContent");
+            $this->chapter["modificated_date"] = $this->date("y-m-d h:i:s");
         }
 
         /**
@@ -76,11 +86,7 @@
             */
         public function createMethod()
         {
-            $this->chapter = [
-                "title"   => $this->post("newTitle"),
-                "content" => $this->post("newContent"),
-                "date"    => $this->date("y-m-d h:i:s")
-            ];
+            $this->getNewData();
 
             if (empty($this->chapter)) {
                 $this->redirect("administration");
@@ -88,6 +94,34 @@
 
             $createPost = ModelFactory::getModel("Posts")->createData($this->chapter);
             $this->redirect("administration");
+        }
+
+        /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+            /*
+                On créer une variable propre à cette méthode avec un tableau vide pour stocker les modifs.
+                Si il y a des modifications, on les récupères puis on passe le tableau des mofids à updateModifs.
+                Ensuite on redirige sur la page "administration".
+                Sinon on affiche la Vue permettant la modification avec le chapitre sélectionné (avec son ID).
+            */
+        public function modifyMethod()
+        {
+            $this->getNewData();
+
+            if (!empty($this->chapter))
+            {
+                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
+
+                $this->redirect("administration");
+            }
+
+            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+
+            return $this->render("modifyPost.twig", ["post" => $this->chapter]);
         }
 
         /**
@@ -110,37 +144,4 @@
 
             $this->redirect("administration");
         }
-
-        /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-         */
-            /*
-                On créer une variable propre à cette méthode avec un tableau vide pour stocker les modifs.
-                Si il y a des modifications, on les récupères puis on passe le tableau des mofids à updateModifs.
-                Ensuite on redirige sur la page "administration".
-                Sinon on affiche la Vue permettant la modification avec le chapitre sélectionné (avec son ID).
-            */
-        public function modifyMethod()
-        {
-            $this->chapter = [
-                "title"         => $this->post("modifTitle"),
-                "content"       => $this->post("modifContent"),
-                "modified_date" => $this->date("y-m-d h:i:s")
-            ];
-
-            if (!empty($this->chapter))
-            {
-                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
-
-                $this->redirect("administration");
-            }
-
-            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
-
-            return $this->render("modifyPost.twig", ["post" => $this->chapter]);
-        }
-
     }

@@ -29,6 +29,8 @@
          */
         public function __construct()
         {
+            parent::__construct();
+
             $this->setEnvironment();
         }
 
@@ -44,7 +46,7 @@
                 "cache" => false,
                 "debug" => true
             ));
-            $this->twig->addGlobal("session", $_SESSION);
+            $this->twig->addGlobal("_session", $_SESSION);
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
             $this->twig->addExtension(new ExtensionFeaturesTwig());
         }
@@ -57,8 +59,8 @@
          */
         public function url(string $page, array $params = [])
         {
-            $params['access'] = $page;
-            return 'index.php?' . http_build_query($params);
+            $params["access"] = $page;
+            return "index.php?" . http_build_query($params);
         }
 
         /**
@@ -68,8 +70,19 @@
          */
         public function redirect(string $page, array $params = [])
         {
-            header('Location: ' . $this->url($page, $params));
-            exit;
+            header("Location: " . $this->url($page, $params));
+            die;
+        }
+
+        /**
+         * Rafraichit la page après l'ajout d'un commentaire.
+         * @param string $value
+         * @param string $params
+         */
+        public function refresh(string $value, string $controller, array $params = [])
+        {
+            header("Location: index.php?id=" . $value . "&access=" . $controller . $params);
+            die;
         }
 
         /**

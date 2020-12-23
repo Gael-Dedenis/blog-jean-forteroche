@@ -23,7 +23,7 @@ class HomeController extends MainController
      */
     public function defaultMethod()
     {
-        $lastPost = array_reverse(ModelFactory::getModel('Posts')->listData());
+        $lastPost = ModelFactory::getModel('Posts')->listData();
         // utilisation de "ModelFactory::" grace à la définition de la méhtode en "static".
 
         return $this->render('home.twig', ['posts' => $lastPost]);
