@@ -75,11 +75,11 @@
          */
         public function reportMethod()
         {
-            $comment_id = $this->get["id"];
+            ModelFactory::getModel('Comments')->updateData($this->get["id"], ['reported' => 1]);
 
-            ModelFactory::getModel('Comments')->updateData($comment_id, ['reported' => 1]);
+            $selectedChapter = $this->get["chapter_id"];
 
-            $this->refresh($this->chapter["id"], $posts, "!read");
+            $this->refreshChapter($selectedChapter, "!read");
         }
 
         /**
