@@ -16,6 +16,10 @@
 
                 <p class="pt-3">{{ chapter.content|nl2br }}</p>
 
+                <pre>
+                    {{ dump(chapter.comments_authors)}}
+                </pre>
+
             </div>
 
             <div class="container mt-5">
@@ -56,22 +60,33 @@
 
                     {% for comment in chapter.comments|reverse %}
 
-                        {% if comment.reported == 1 %}
-                            <!-- Si le commentaire est pinger "reported" on ne l'affiche pas -->
+                        {% if comment.reported >= 1 %}
+                            <!-- Si le commentaire est pinger "reported" on l'affiche comme signalé -->
+                            <li class="list-group-item">
+                                <p> Commentaire signalé ! </p>
+                            </li>
 
+                        {% else %}
+                            <li class="list-group-item">
+
+                                <div class="container">
+                                    <p>
+                                        Écrit par {% for author in chapter.comments_authors %}
+
+                                                    {% if comment.user_id == author.id %}
+                                                        {{ author.pseudo }}
+                                                    {% endif %}
+
+                                                  {% endfor %}, le {{ comment.created_date }} :<br>
+                                        {{ comment.content|nl2br }}
+                                    </p>
+                                    <a class="btn btn-outline-danger btn-sm offset-10" href="{{ url('comments!report', {'id': comment.id, 'chapter_id': chapter.id})}}">
+                                        Signaler
+                                    </a>
+
+                                </div>
+                            </li>
                         {% endif %}
-
-                        <li class="list-group-item">
-
-                            <div class="container">
-                                <p>
-                                    Écrit par {{ user.pseudo }}, le {{ comment.created_date }} :<br>
-                                    {{ comment.content|nl2br }}
-                                </p>
-                                <a class="btn btn-outline-danger btn-sm offset-10" href="{{ url('comments!report', {'id': comment.id})}}">
-                                    Signaler
-                                </a>
-                            </div>
 
                     {% endfor %}
 
