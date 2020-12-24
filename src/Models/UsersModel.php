@@ -2,12 +2,12 @@
 
     namespace App\Models;
 
-    use App\Models\Factory\PDOFactory;
+    use App\Models\MainModel;
 
     /**
-     * Classe UserModel
+     * Classe UsersModel
      * Manage les données Users.
      * @package App\Models
      */
-    class UserModel extends MainModel
+    class UsersModel extends MainModel
     {}
