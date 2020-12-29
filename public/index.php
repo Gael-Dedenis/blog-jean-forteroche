@@ -6,6 +6,8 @@
     /* Appel de l'autoload */
     require "../vendor/autoload.php";
 
+    session_start();
+
     Debugger::enable();
 
     /* Création du routeur */
