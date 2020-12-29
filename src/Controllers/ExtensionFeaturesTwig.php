@@ -46,27 +46,4 @@
             header("Location: " . $this->url($page, $params));
             exit;
         }
-
-        /**
-         * Vérifie le role de l'utilisateur
-         * @return string
-         */
-        public function checkRole()
-        {
-            $role = "";
-
-            if (!empty($session))
-            {
-                if ($this->session["user_data['admin']"] === 1)
-                {
-                    $role = "admin";
-                }
-                elseif ($this->session["user_data['admin']"] === 0)
-                {
-                    $role = "membre";
-                }
-
-                return $role;
-            }
-        }
     }
