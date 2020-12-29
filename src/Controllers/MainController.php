@@ -46,7 +46,7 @@
                 "cache" => false,
                 "debug" => true
             ));
-            $this->twig->addGlobal("_session", $_SESSION);
+            $this->twig->addGlobal("session", $_SESSION);
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
             $this->twig->addExtension(new ExtensionFeaturesTwig());
         }
@@ -71,7 +71,7 @@
         public function redirect(string $page, array $params = [])
         {
             header("Location: " . $this->url($page, $params));
-            die;
+            exit;
         }
 
         /**
@@ -79,10 +79,10 @@
          * @param string $value
          * @param string $params
          */
-        public function refresh(string $value, string $controller, array $params = [])
+        public function refreshChapter(string $value, string $params)
         {
-            header("Location: index.php?id=" . $value . "&access=" . $controller . $params);
-            die;
+            header("Location: index.php?id=" . $value . "&access=posts" . $params);
+            exit;
         }
 
         /**
