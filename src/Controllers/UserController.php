@@ -33,7 +33,7 @@
             }
 
             $this->checkLogUser();
-
+            $this->redirect("home");
         }
 
         /**
@@ -62,15 +62,27 @@
         */
         public function createMethod()
         {
-            $this->user["pseudo"] = $this->post["pseudo"];
-            $this->user["email"]  = $this->post["email"];
-            $this->user["pass"]   = password_hash($this->post["pass"], PASSWORD_DEFAULT);
-            $this->user["admin"]  = 0;
-
-            ModelFactory::getModel("User")->createData($this->user);
-
-            $this->redirect("connexion");
+            if (!empty($this->post))
+            {
+                $this->setDataUser();
+                $this->redirect("home");
+            }
+             return $this->render("create_account.twig");
         }
+
+        /**
+         * 
+         */
+        private function setDataUser()
+        {
+                $this->user["pseudo"] = $this->post["pseudo"];
+                $this->user["email"]  = $this->post["email"];
+                $this->user["pass"]   = password_hash($this->post["pass"], PASSWORD_DEFAULT);
+                $this->user["status"] = 1;
+
+                ModelFactory::getModel("User")->createData($this->user);
+        }
+
 
         /**
          * @return string
