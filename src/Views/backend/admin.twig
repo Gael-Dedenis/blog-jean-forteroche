@@ -1,0 +1,41 @@
+{% extends "layout/layout.twig" %}
+
+{% block title %}
+
+    Administration
+
+{% endblock %}
+
+{% block header %}
+
+    <h1 class="mg-y text-center text-underline">Panneau d'administration</h1>
+
+{% endblock %}
+
+{% block content %}
+
+    <section>
+
+        <ul class="list-group list-group-flush container">
+
+            <li class="list-group-item">
+                <a href="{{ url('posts!create') }}">Créer un chapitre</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href="{{ url('posts!modify') }}">Modifier un chapitre</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href="{{ url('posts!delete') }}">Supprimer un chapitre</a>
+            </li>
+
+            <li class="list-group-item">
+                <a href="{{ url('comments!delete') }}">Gérer les commentaires signalés</a>
+            </li>
+
+        </ul>
+
+    </section>
+
+{% endblock %}

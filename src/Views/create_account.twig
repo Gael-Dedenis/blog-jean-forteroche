@@ -2,21 +2,28 @@
 
 {% block title %}
 
-    Connexion
+    Création de compte
 
 {% endblock %}
 
 {% block header %}
 
-    <h1 class="mg-y text-center">Se connecter</h1>
+    <h1 class="mg-y text-center">Créer un compte</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <section class="container text-center">
+    <section class="container text-center mb-5 mt-5">
 
-        <form class="form-group" action="{{ url('user!default') }}" method="POST" enctype="multipart/form-data">
+        <form class="form-group" action="{{ url('user!create') }}" method="POST" enctype="multipart/form-data">
+
+            <div class="form-group col-6 offset-3">
+
+                <label for="pseudo" class="col-sm-4 col-form-label">pseudo</label>
+                <input type="text" class="form-control" id="pseudo" placeholder="john-doe01" required>
+
+            </div>
 
             <div class="form-group col-6 offset-3">
 
@@ -32,12 +39,9 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Connexion</button>
+            <button type="submit" class="btn btn-primary mt-4">Créer mon compte</button>
 
         </form>
-
-        <h2 class="mg-y">Pas de compte ?</h2>
-        <p>Créez un compte <a href='{{ url("user!create") }}'>ici</a>.</p>
 
     </section>
 

@@ -74,6 +74,6 @@
                     $this->user["role"] = "visiteur";
             }
 
-            return $this->user;
+            return $this->user["role"];
         }
     }

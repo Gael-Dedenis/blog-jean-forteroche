@@ -75,17 +75,6 @@
         }
 
         /**
-         * Rafraichit la page après l'ajout d'un commentaire.
-         * @param string $value
-         * @param string $params
-         */
-        public function refreshChapter(string $value, string $params)
-        {
-            header("Location: index.php?id=" . $value . "&access=posts" . $params);
-            exit;
-        }
-
-        /**
          * Création de la vue.
          * @param string $view
          * @param array $params
