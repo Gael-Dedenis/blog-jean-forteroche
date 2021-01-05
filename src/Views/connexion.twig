@@ -2,7 +2,7 @@
 
 {% block title %}
 
-    Connexion au Blog de Jean Forteroche
+    Connexion
 
 {% endblock %}
 
@@ -14,27 +14,31 @@
 
 {% block content %}
 
-    <form class="container" action="{{ url('user!default') }}" method="POST" enctype="multipart/form-data">
+    <section class="container text-center">
 
-        <div class="form-group col-6 offset-3">
+        <form class="form-group" action="{{ url('user!default') }}" method="POST" enctype="multipart/form-data">
 
-            <label for="email" class="col-sm-4 col-form-label">email</label>
-            <input type="email" class="form-control" id="email" placeholder="john@doe.gmail" required>
+            <div class="form-group col-6 offset-3">
 
-        </div>
+                <label for="email" class="col-sm-4 col-form-label">email</label>
+                <input type="email" class="form-control" id="email" placeholder="john@doe.gmail" required>
 
-        <div class="form-group col-6 offset-3">
+            </div>
 
-            <label for="pass" class="col-sm-4 col-form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="pass" autocomplete="off" required>
+            <div class="form-group col-6 offset-3">
 
-        </div>
+                <label for="pass" class="col-sm-4 col-form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="pass" autocomplete="off" required>
 
-        <button type="submit" class="btn btn-primary offset-8">Connexion</button>
+            </div>
 
-    </form>
+            <button type="submit" class="btn btn-primary">Connexion</button>
 
-    <h2 class="mg-y text-center">Pas de compte ?</h2>
-    <p class="text-center">Créez un compte <a href='{{ url("user!create") }}'>ici</a>.</p>
+        </form>
+
+        <h2 class="mg-y">Pas de compte ?</h2>
+        <p>Créez un compte <a href='{{ url("user!create") }}'>ici</a>.</p>
+
+    </section>
 
 {% endblock %}
