@@ -1,0 +1,48 @@
+{% extends "layout/layout.twig" %}
+
+{% block title %}
+
+    Création de compte
+
+{% endblock %}
+
+{% block header %}
+
+    <h1 class="mg-y text-center">Créer un compte</h1>
+
+{% endblock %}
+
+{% block content %}
+
+    <section class="container text-center mb-5 mt-5">
+
+        <form class="form-group" action="{{ url('user!create') }}" method="POST" enctype="multipart/form-data">
+
+            <div class="form-group col-6 offset-3">
+
+                <label for="pseudo" class="col-sm-4 col-form-label">pseudo</label>
+                <input type="text" class="form-control" id="pseudo" placeholder="john-doe01" required>
+
+            </div>
+
+            <div class="form-group col-6 offset-3">
+
+                <label for="email" class="col-sm-4 col-form-label">email</label>
+                <input type="email" class="form-control" id="email" placeholder="john@doe.gmail" required>
+
+            </div>
+
+            <div class="form-group col-6 offset-3">
+
+                <label for="pass" class="col-sm-4 col-form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="pass" autocomplete="off" required>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Créer mon compte</button>
+
+        </form>
+
+    </section>
+
+{% endblock %}
