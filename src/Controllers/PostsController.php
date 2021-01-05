@@ -42,9 +42,9 @@
             */
         private function getData()
         {
-            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
-
-            $this->chapter["comments"] = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
+            $this->chapter                     = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+            $this->chapter["comments"]         = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
+            $this->chapter["comments_authors"] = ModelFactory::getModel("Users")->listData();
         }
 
         /**
@@ -91,8 +91,9 @@
             if (empty($this->chapter)) {
                 $this->redirect("administration");
             }
-
-            $createPost = ModelFactory::getModel("Posts")->createData($this->chapter);
+            
+            ModelFactory::getModel("Posts")->createData($this->chapter);
+            
             $this->redirect("administration");
         }
 
@@ -114,7 +115,7 @@
 
             if (!empty($this->chapter))
             {
-                $updateModifs = ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
+                ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
 
                 $this->redirect("administration");
             }

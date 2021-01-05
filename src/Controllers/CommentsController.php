@@ -38,7 +38,7 @@
          * @throws RuntimeError
          * @throws SyntaxError
          */
-        public function CreateMethod()
+        public function createMethod()
         {
             $this->comments["author"]  = $this->session["user_data"["pseudo"]];
             $this->comments["content"] = $this->post["comment_content"];
@@ -51,7 +51,7 @@
             }
             ModelFactory::getModel("Comments")->createData($this->comments);
 
-            $this->refresh($this->comments["post_id"], $posts, "!read");
+            $this->refreshChapter($this->comments["post_id"], "!read");
         }
 
         /**
@@ -75,11 +75,11 @@
          */
         public function reportMethod()
         {
-            $comment_id = $this->get["id"];
+            ModelFactory::getModel('Comments')->updateData($this->get["id"], ['reported' => 1]);
 
-            ModelFactory::getModel('Comments')->updateData($comment_id, ['reported' => 1]);
+            $selectedChapter = $this->get["chapter_id"];
 
-            $this->refresh($this->chapter["id"], $posts, "!read");
+            $this->refreshChapter($selectedChapter, "!read");
         }
 
         /**
@@ -88,7 +88,7 @@
          * @throws RuntimeError
          * @throws SyntaxError 
          */
-        public function getreportedMethod()
+        public function getReportedMethod()
         {
             $this->comments = ModelFactory::getModel("Comments")->readData(["reported" => 1]);
 

@@ -16,19 +16,10 @@
         /**
          * @var array
          */
-        private $user = [];
+        private $user_data = [];
 
         /**
-         * @var array
-         */
-        private $newData = [];
-
-        /**
-         * @data mixed|null
-         */
-        private $session = null;
-
-        /**
+         * Action: Si les champs pour se log ne sont pas vide, on vérifie le mdp et on créer une session.
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
@@ -36,20 +27,31 @@
          */
         public function defaultMethod()
         {
-            if (empty($this->post["email"]) && empty($this->post["pass"]))
+            if (empty($this->post["email"]) || empty($this->post["pass"]))
             {
                 return $this->render("connexion.twig");
             }
 
-            $this->user = ModelFactory::getModel("User")->readData($this->post["email"], "email");
+            $this->checkLogUser();
 
-            // si le mdp correspond on créer une session.
-            if (password_verify($this->post["pass"], $this->user["pass"]))
-            {
-                $this->sessionMethod();
+        }
 
-                $this->redirect("home");
+        /**
+         * Action: vérification du login
+         */
+        private function checkLogUser () {
+            $this->user_data = ModelFactory::getModel("User")->readData($this->post["email"], "email");
+
+            if (password_verify($this->post["pass"], $user_data["pass"])) {
+                $this->setSession(
+                    $this->user_data["id"],
+                    $this->user_data["pseudo"],
+                    $this->user_data["email"],
+                    $this->user_data["pass"],
+                    $this->user_data["status"]
+                );
             }
+
         }
 
         /**
@@ -105,14 +107,14 @@
          * Création de la session avec les données de l'utilisateur
          * @param array userData
          */
-        private function sessioncreate()
+        private function setSession(int $id, string $pseudo, string $email, string $pass, string $status)
         {
-            $this->session['user_data'] = [
-                'id'     => $this->user["id"],
-                'pseudo' => $this->user["pseudo"],
-                'email'  => $this->user["email"],
-                'pass'   => $this->user["password"],
-                'admin'  => $this->user["admin"]
+            $_SESSION['user'] = [
+                'id'     => $id,
+                'pseudo' => $pseudo,
+                'email'  => $email,
+                'pass'   => $pass,
+                'status' => $status
             ];
         }
 
@@ -121,7 +123,7 @@
          */
         private function sessiondestroy()
         {
-            $_SESSION['users'] = [];
+            $_SESSION['user'] = [];
         }
 
     }
