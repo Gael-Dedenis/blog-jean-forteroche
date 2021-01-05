@@ -2,7 +2,6 @@
 
     namespace App\Controllers;
 
-    use App\Models\Factory\ModelFactory;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
@@ -26,18 +25,28 @@
          */
         public function defaultMethod()
         {
-            return $this->render("contact.twig");
+            if (empty($this->post["message"]))
+            {
+                return $this->render("contact.twig");
+            } else {
+                $this->sendMethod();
+
+                $this->redirect("contact");
+            }
+
         }
 
         /**
-         * 
+         * méthode pour l'envoie d'un mail par swiftmailer
+         * @return mixed
          */
-        public function sendMessage()
+        private function sendMethod()
         {
             // Création du transport
             $transport = (new Swift_SmtpTransport())
-                ->setHost(smtp.laposte.net,25)
-                ->setUsername(MAIL_TO)
+                ->setHost(MAIL_HOST)
+                ->setPort(MAIL_PORT)
+                ->setUsername(MAIL_FROM)
                 ->setPassword(MAIL_PASS)
                 ;
 
@@ -47,9 +56,9 @@
             // Création du message
             $message = (new Swift_Message())
                 ->setSubject($this->post["subject"])
-                ->setFrom([$this->post["email"] => $this->post["pseudo"]])
-                ->setTo([MAIL_TO => ])
-                ->setBody($this-post["message"])
+                ->setFrom([MAIL_FROM => "Blog JeanForteroche"])
+                ->setTo([MAIL_TO, $this->post["email"] => $this->post["pseudo"]])
+                ->setBody($this->post["message"])
                 ;
 
             // envoie du mail
