@@ -46,7 +46,19 @@
 
             $this->post    = filter_input_array(INPUT_POST);
             $this->get     = filter_input_array(INPUT_GET);
+
+            $this->$allValues = $this->getAllValues();
+
             $this->session = filter_var_array($_SESSION);
+        }
+
+        public function getAllValues() {
+            $this->allValues = [
+                "dataPost" => $_POST,
+                "dataGet"  => $_GET
+            ];
+
+            return filter_var_array($this->allValues);
         }
 
         /**

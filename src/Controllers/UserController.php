@@ -26,13 +26,25 @@
          * @throws SyntaxError
         */
         public function defaultMethod() {
-            echo '<pre> '. var_dump($_POST) .' </pre>';
+            $_POST["email"] = "gaeldedenis01@laposte.net";
+            $_POST["pass"]  = "1234";
+            $_SESSION["user"] = [
+                "id"     => "0",
+                "pseudo" => "Admin",
+                "email"  => "gaeldedenis01@laposte.net",
+                "pass"   => "1234",
+                "status" => "2"
+            ];
 
-            if (isset($_POST['email']) && isset($_POST['pass'])) {
+            echo '<pre> '. var_dump($_POST) .' </pre>'; // Trouve bien Mail et Pass
+            echo '<pre> '. var_dump($this->post) .' </pre>'; // = NULL
+            echo '<pre> '. var_dump($this->allValues) .' </pre>'; // filtre GET = ok, POST = nok
+            echo '<pre> '. var_dump($_SESSION) .' </pre>'; // Trouve bien la Session
+            echo '<pre> '. var_dump($this->session) .' </pre>'; // Trouve bien la Session
+
+         /* if (isset($_POST['email']) && isset($_POST['pass'])) {
                 $this->checkLogUser($this->post['email'], $this->post['pass']);
-            }
-
-            echo 'fail logUser <br>';
+            } */
 
             return $this->render('connexion.twig');
         }
