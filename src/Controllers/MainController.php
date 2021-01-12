@@ -3,52 +3,50 @@
     namespace App\Controllers;
 
     use Twig\Environment;
-    use Twig\Loader\FilesystemLoader;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
-
-    require_once "../config/config_dev.php";
 
     /**
      * Classe MainController
      * @package App\Controller
      */
-    abstract class MainController extends GlobalController
+    abstract class MainController
     {
-
         /**
          * @var Environment
          */
         protected $twig = null;
 
         /**
-         * constructor MainController
-         * @param 
-         * @param Environment $twign
+         * @var mixed
          */
-        public function __construct()
-        {
-            parent::__construct();
-
-            $this->setEnvironment();
-        }
+        protected $get = null;
 
         /**
-         * Mise en place environement Twig.
-         * Ajout de la global Session aux Vues Twig.
-         * Ajouts de fonctionnalités pour les Vues Twig.
-         * @return mixed|void
+         * @var mixed
          */
-        public function setEnvironment()
-        {
-            $this->twig = new Environment(new FilesystemLoader("../src/Views"), array(
-                "cache" => false,
-                "debug" => true
-            ));
-            $this->twig->addGlobal("session", $_SESSION);
-            $this->twig->addExtension(new \Twig\Extension\DebugExtension());
-            $this->twig->addExtension(new ExtensionFeaturesTwig());
+        protected $post = null;
+
+        /**
+         * @var array
+         */
+        protected $allValues = [];
+
+        /**
+         * @var mixed|null
+         */
+        protected $session = [];
+
+        /**
+         * constructor MainController
+         */
+        public function __construct(Environment $twig) {
+            $this->twig = $twig;
+
+            $this->post    = filter_input_array(INPUT_POST);
+            $this->get     = filter_input_array(INPUT_GET);
+            $this->session = filter_var_array($_SESSION);
         }
 
         /**
@@ -57,8 +55,7 @@
          * @param array $params
          * @return string
          */
-        public function url(string $page, array $params = [])
-        {
+        public function url(string $page, array $params = []) {
             $params["access"] = $page;
             return "index.php?" . http_build_query($params);
         }
@@ -68,8 +65,7 @@
          * @param string $page
          * @param array $params
          */
-        public function redirect(string $page, array $params = [])
-        {
+        public function redirect(string $page, array $params = []) {
             header("Location: " . $this->url($page, $params));
             exit;
         }
@@ -83,8 +79,7 @@
          * @throws RuntimeError
          * @throws SyntaxError
          */
-        public function render(string $views, array $params = [])
-        {
+        public function render(string $views, array $params = []) {
             return $this->twig->render($views, $params);
         }
 
