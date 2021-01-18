@@ -10,49 +10,59 @@
 
 {% block content %}
 
-        <article class="container border border-primary rounded-lg bg-my-lightblue">
+    <article class="container border border-secondary rounded-lg shadow-lg p-3">
+
+        <div class="container">
+
+            <p class="pt-3">{{ chapter.content|nl2br }}</p>
+
+            {% if session.user.status is not empty and session.user.status is same as("2") %}
+
+                <a class="btn btn-outline-primary mt-3" href="{{ url('posts!modify', {'id': post.id}) }}">Modifier le chapitre</a>
+
+            {% endif %}
+
+        </div>
+
+    </article>
+
+    <section class="container mt-5">
+
+        {% if session.user is not empty %}
 
             <div class="container">
 
-                <p class="pt-3">{{ chapter.content|nl2br }}</p>
+                <section class="container">
 
-                <a class="btn btn-primary mt-3" href="{{ url('posts!modify', {'id': post.id}) }}">Modifier le chapitre</a>
+                    <form action="{{ url('comments!create', {'id':chapter.id}) }}" method="post" onSubmit="window.location.reload()">
 
-            </div>
+                        <div class="form-group">
 
-            <div class="container mt-5">
+                            <label for="comment" class="col-sm-6 offset-3 col-form-label">
+                                <h3 class="text-center text-underline">Ajouter un commentaire</h3>
+                            </label>
 
-                {% if users.admin is not null and users.admin is not empty and users.admin >= 0 %}
-
-                    <section class="container">
-
-                        <h3 class="text-center text-underline">Ajouter un commentaire</h3>
-
-                        <form action="{{ url('comments!create', {'id':chapter.id}) }}" method="post">
-
-                            <div class="form-group">
-
-                                <label for="create-Comment" class="col-sm-1 col-form-label">Commentaire</label>
-                                <div class="col-sm-5">
-                                    <textarea id="create-Comment" name="create-Comment" rows="8" cols="80"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Envoyer</button>
-
+                             <div>
+                                <textarea id="comment" class="col-sm-12" name="comment" rows="6"></textarea>
                             </div>
 
-                        </form>
+                            <button type="submit" class="btn btn-outline-primary mt-3 pl-4 pr-4">Envoyer</button>
 
-                    </section>
+                        </div>
 
-                {% endif %}
+                    </form>
+
+                </section>
 
             </div> 
 
-        </article>
+        {% endif %}
 
-        <section class="container mt-3">
+        {% if chapter.comments is empty %}
 
-            <div class="col-6 offset-2">
+        {% else %}
+
+            <div class="col-6 offset-3 p-3 border border-secondary shadow-lg rounded-lg">
 
                 <ul class="list-group list-group-flush">
 
@@ -66,21 +76,40 @@
 
                         {% else %}
                             <li class="list-group-item">
-
                                 <div class="container">
+
                                     <p>
                                         Écrit par {% for author in chapter.comments_authors %}
 
-                                                    {% if comment.user_id == author.id %}
-                                                        {{ author.pseudo }}
-                                                    {% endif %}
+                                            {% if comment.user_id == author.id %}
+                                                {{ author.pseudo }}
+                                            {% endif %}
 
-                                                  {% endfor %}, le {{ comment.created_date|date("d/m/Y à h:m") }} :<br>
-                                        {{ comment.content|nl2br }}
+                                        {% endfor %}, le {{ comment.created_date|date("d/m/Y à h:m") }} :<br>
+                                            {{ comment.content|nl2br }}
                                     </p>
-                                    <a class="btn btn-outline-danger btn-sm offset-10" href="{{ url('comments!report', {'id': comment.id, 'chapter_id': chapter.id})}}">
-                                        Signaler
-                                    </a>
+
+                                    <ul class="list-group list-group-horizontal">
+                                        {% if session.user.id == comment.user_id %}
+                                            <li class="list-group-item text-center">
+                                                <a class="text-primary" href="{{ url('comments!modify', {'id': comment.id, 'chapter': chapter.id})}}">
+                                                    Modifier
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item text-center">
+                                                <a class="text-secondary" href="{{ url('comments!delete', {'id': comment.id, 'chapter': chapter.id})}}">
+                                                    Supprimer
+                                                </a>
+                                            </li>
+                                        {% endif %}
+
+                                        <li class="list-group-item text-center">
+                                            <a class="text-danger" href="{{ url('comments!report', {'id': comment.id, 'chapter': chapter.id})}}">
+                                                Signaler
+                                            </a>
+
+                                        </li>
+                                    </ul>
 
                                 </div>
                             </li>
@@ -92,9 +121,12 @@
 
             </div>
 
-        </section>
+        {% endif %}
 
-        <h4 class="container mt-3">
-            <a href="{{ url('posts') }}">Retour à la sélection de chapitre</a>
-        </h4>
+    </section>
+
+    <h4 class="container mt-3">
+        <a href="{{ url('posts') }}">Retour à la sélection de chapitre</a>
+    </h4>
+
 {% endblock %}
