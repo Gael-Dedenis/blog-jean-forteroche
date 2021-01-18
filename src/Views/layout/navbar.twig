@@ -19,24 +19,24 @@
                 <a class="nav-link" href="{{ url('contact') }}" title="Me contacter">Contact</a>
             </li>
 
-        {% if session.users is defined and session.users == "1" %}
+        {% if session.user.status == "2" %}
         <!-- ..... ..... Si l'utilisateur est un admin ..... ..... -->
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('administration') }}" title="Administration">Administration</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('logout') }}"         title="Déconnexion">Déconnexion</a>
+                <a class="nav-link" href="{{ url('user!logout') }}"         title="Déconnexion">Déconnexion</a>
             </li>
 
-        {% elseif session.users is defined and session.users == "0" %}
+        {% elseif session.user.status == "1" %}
         <!-- ..... ..... Si l'utilisateur est un membre ..... ..... -->
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('compte') }}" title="Mon compte">Mon compte</a>
+                <a class="nav-link" href="{{ url('user!modify') }}" title="Mon compte">Mon compte</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('logout') }}" title="Déconnexion">Déconnexion</a>
+                <a class="nav-link" href="{{ url('user!logout') }}" title="Déconnexion">Déconnexion</a>
             </li>
 
         {% else %}
