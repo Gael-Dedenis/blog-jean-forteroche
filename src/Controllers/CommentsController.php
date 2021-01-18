@@ -19,6 +19,11 @@
         private $comments = [];
 
         /**
+         * @var mixed
+         */
+        private $chapter = null;
+
+        /**
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
@@ -40,18 +45,30 @@
          */
         public function createMethod()
         {
-            $this->comments["author"]  = $this->session["user_data"["pseudo"]];
-            $this->comments["content"] = $this->post["comment_content"];
-            $this->comments["post_id"] = $this->get["id"];
-            $this->comments["user_id"] = $this->session["user_data"["id"]];
-
-            if (empty($this->comments["content"]))
-            {
-                $this->redirect("selectedpost");
+            if (!empty($this->post)) {
+                $this->setNewComment();
             }
-            ModelFactory::getModel("Comments")->createData($this->comments);
 
-            $this->refreshChapter($this->comments["post_id"], "!read");
+            $this->chapter = $this->get["id"];
+
+            $this->refreshComments($this->chapter);
+        }
+
+        /**
+         * Créer le nouveau commentaire.
+         */
+        private function setNewComment() {
+            $this->comments["content"]      = $this->post["comment"];
+            $this->comments["created_date"] = date("Y-m-d H-i-s");
+            $this->comments["post_id"]      = $this->get["id"];
+            $this->comments["user_id"]      = $this->session["user"]["id"];
+
+            ModelFactory::getModel('Comments')->createData([
+                "content"      => $this->comments["content"],
+                "created_date" => $this->comments["created_date"],
+                "post_id"      => $this->comments["post_id"],
+                "user_id"      => $this->comments["user_id"]
+            ]);
         }
 
         /**
@@ -64,7 +81,9 @@
         {
             ModelFactory::getModel('Comments')->deleteData($this->get['id']);
 
-            $this->redirect('administration');
+            $this->chapter = $this->get["chapter"];
+
+            $this->refreshComments($this->chapter);
         }
 
         /**
@@ -77,21 +96,9 @@
         {
             ModelFactory::getModel('Comments')->updateData($this->get["id"], ['reported' => 1]);
 
-            $selectedChapter = $this->get["chapter_id"];
+            $this->chapter = $this->get["chapter"];
 
-            $this->refreshChapter($selectedChapter, "!read");
+            $this->refreshComments($this->chapter);
         }
-
-        /**
-         * @return array
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError 
-         */
-        public function getReportedMethod()
-        {
-            $this->comments = ModelFactory::getModel("Comments")->readData(["reported" => 1]);
-
-            $this->redirect("administration", ["reported" => $this->comments]);
-        }
+        
     }
