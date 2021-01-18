@@ -3,10 +3,14 @@
     use App\Router;
     use Tracy\Debugger;
 
-    /* Appel de l'autoload */
-    require "../vendor/autoload.php";
+    // Appel de l'autoload
+    require_once "../vendor/autoload.php";
+    require_once "../config/config_dev.php";
 
-    session_start();
+    // Détermine si une session existe, si 'non' en créer une.
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
     Debugger::enable();
 

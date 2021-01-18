@@ -16,9 +16,7 @@
 
                 <p class="pt-3">{{ chapter.content|nl2br }}</p>
 
-                <pre>
-                    {{ dump(chapter.comments_authors)}}
-                </pre>
+                <a class="btn btn-primary mt-3" href="{{ url('posts!modify', {'id': post.id}) }}">Modifier le chapitre</a>
 
             </div>
 
@@ -54,7 +52,7 @@
 
         <section class="container mt-3">
 
-            <div class="col-4 offset-4">
+            <div class="col-6 offset-2">
 
                 <ul class="list-group list-group-flush">
 
@@ -77,7 +75,7 @@
                                                         {{ author.pseudo }}
                                                     {% endif %}
 
-                                                  {% endfor %}, le {{ comment.created_date }} :<br>
+                                                  {% endfor %}, le {{ comment.created_date|date("d/m/Y à h:m") }} :<br>
                                         {{ comment.content|nl2br }}
                                     </p>
                                     <a class="btn btn-outline-danger btn-sm offset-10" href="{{ url('comments!report', {'id': comment.id, 'chapter_id': chapter.id})}}">

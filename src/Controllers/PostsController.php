@@ -19,57 +19,54 @@
         private $chapter = [];
 
         /**
+         * On récupère touts les posts dans la base de données. Puis on envoie le résultat à la Vue.
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
          * @throws SyntaxError
          */
-        public function defaultMethod()
-        {
-            /* On récupère touts les posts dans la base de données. Puis on envoie le résultat à la Vue. */
-
+        public function defaultMethod() {
             $allPosts = ModelFactory::getModel("Posts")->listData();
 
             return $this->render("allposts.twig", ["posts" => $allPosts]);
         }
 
         /**
+         * On récupère les données d'un post sélectionné par son ID.
+         * Dans le tableau "chapter" on va inclure les commentaires lié à l'ID du post.
          * @return array
          */
-            /*
-                On récupère les données d'un post sélectionné par son ID.
-                Dans le tableau "post" on va inclure les commentaires lié à l'ID du post.
-            */
-        private function getData()
-        {
+        private function getData(){
             $this->chapter                     = ModelFactory::getModel("Posts")->readData($this->get["id"]);
             $this->chapter["comments"]         = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
             $this->chapter["comments_authors"] = ModelFactory::getModel("Users")->listData();
+
+            return $this->chapter;
         }
 
         /**
+         * On appel la fonction getData puis on envoie le tableau obtenue à la Vue. 
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
          * @throws SyntaxError
          */
-            /* On appel la fonction getData puis on envoie le tableau obtenue à la Vue. */
-        public function readMethod()
-        {
-
+        public function readMethod() {
             $this->getData();
 
             return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
         }
 
         /**
+         * On récupère les données du nouveau chapitre.
          * @return array
          */
-        private function getNewData()
-        {
-            $this->chapter["newTitle"]         = $this->post("newTitle");
-            $this->chapter["newContent"]       = $this->post("newContent");
-            $this->chapter["modificated_date"] = $this->date("y-m-d h:i:s");
+        private function getNewData() {
+            $this->chapter["newTitle"]   = $this->post("newTitle");
+            $this->chapter["newContent"] = $this->post("newContent");
+            $this->chapter["date"]       = $this->date("y-m-d h:i:s");
+
+            return $this->chapter;
         }
 
         /**
@@ -78,23 +75,16 @@
          * @throws RuntimeError
          * @throws SyntaxError
          */
-            /*
-                On récupère les données écrites "title" et "content".
-                On vérifie si il n'y a aucune donnée de récupérer. Si oui, on redirige sur la page principale "administration".
-                On appel la méthode createData du ModelFactory et créer une nouvelle entrée dans la base de données pour les Posts.
-                Enfin on redirige sur la page principale "administration".
-            */
-        public function createMethod()
-        {
-            $this->getNewData();
+        public function createMethod() {
 
-            if (empty($this->chapter)) {
-                $this->redirect("administration");
+            if (!empty($this->chapter)) {
+                $this->getNewData();
+
+                ModelFactory::getModel("Posts")->createData($this->chapter);
+                $this->redirect("posts");
             }
-            
-            ModelFactory::getModel("Posts")->createData($this->chapter);
-            
-            $this->redirect("administration");
+
+            return $this->render("backend/admin_createChapter.twig");
         }
 
         /**
@@ -117,12 +107,12 @@
             {
                 ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
 
-                $this->redirect("administration");
+                $this->redirect("posts");
             }
 
             $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-            return $this->render("modifyPost.twig", ["post" => $this->chapter]);
+            return $this->render("backend/admin_modifyPost.twig", ["post" => $this->chapter]);
         }
 
         /**

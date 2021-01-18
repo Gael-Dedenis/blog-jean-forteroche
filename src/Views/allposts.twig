@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block content %}
-    <section>
+    <section class="container">
         <h2 class="mg-y text-center text-underline">Sélectionnez le chapitre que vous voulez lire:</h2>
 
             <ul class="list-group list-group-flush container">
@@ -40,6 +40,8 @@
                 {% endfor %}
 
             </ul>
+
+        <a class="btn btn-primary offset-1 mt-4" href="{{ url('posts!create') }}">Ajouter un nouveau chapitre</a>
 
     </section>
 

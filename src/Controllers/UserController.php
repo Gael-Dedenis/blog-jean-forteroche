@@ -16,111 +16,74 @@
         /**
          * @var array
          */
-        private $user_data = [];
+        private $user = [];
 
         /**
-         * Action: Si les champs pour se log ne sont pas vide, on vérifie le mdp et on créer une session.
+         * Formulaire de connection.
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
          * @throws SyntaxError
-         */
-        public function defaultMethod()
-        {
-            if (empty($this->post["email"]) || empty($this->post["pass"]))
-            {
-                return $this->render("connexion.twig");
-            }
+        */
+        public function defaultMethod() {
+            $_POST["email"] = "gaeldedenis01@laposte.net";
+            $_POST["pass"]  = "1234";
+            $_SESSION["user"] = [
+                "id"     => "0",
+                "pseudo" => "Admin",
+                "email"  => "gaeldedenis01@laposte.net",
+                "pass"   => "1234",
+                "status" => "2"
+            ];
 
-            $this->checkLogUser();
-            $this->redirect("home");
+            echo '<pre> '. var_dump($_POST) .' </pre>'; // Trouve bien Mail et Pass
+            echo '<pre> '. var_dump($this->post) .' </pre>'; // = NULL
+            echo '<pre> '. var_dump($this->allValues) .' </pre>'; // filtre GET = ok, POST = nok
+            echo '<pre> '. var_dump($_SESSION) .' </pre>'; // Trouve bien la Session
+            echo '<pre> '. var_dump($this->session) .' </pre>'; // Trouve bien la Session
+
+         /* if (isset($_POST['email']) && isset($_POST['pass'])) {
+                $this->checkLogUser($this->post['email'], $this->post['pass']);
+            } */
+
+            return $this->render('connexion.twig');
         }
 
         /**
-         * Action: vérification du login
-         */
-        private function checkLogUser () {
-            $this->user_data = ModelFactory::getModel("User")->readData($this->post["email"], "email");
+         * Action: méthode vérifiant les logins de l'utilisateur grâce à son email et mdp.
+         * @param string $email
+         * @param string $pass
+         * @return array
+        */
+        private function checkLogUser($mail, $pass) {
 
-            if (password_verify($this->post["pass"], $user_data["pass"])) {
+            echo 'coucou avant de récup donnée utilisateur';
+
+            $this->user = ModelFactory::getModel('Users')->readData($email , 'email');
+
+            if (password_verify($pass, $this->user["pass"])) {
                 $this->setSession(
-                    $this->user_data["id"],
-                    $this->user_data["pseudo"],
-                    $this->user_data["email"],
-                    $this->user_data["pass"],
-                    $this->user_data["status"]
+                    $this->user['id'],
+                    $this->user['pseudo'],
+                    $this->user['email'],
+                    $this->user['pass'],
+                    $this->user['status']
                 );
             }
 
+            echo 'coucou session créer !';
+            //$this->redirect('home');
         }
 
         /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-        */
-        public function createMethod()
-        {
-            if (!empty($this->post))
-            {
-                $this->setDataUser();
-                $this->redirect("home");
-            }
-             return $this->render("create_account.twig");
-        }
-
-        /**
-         * 
+         * Action: remplit la session avec les données de l'utilisateur.
+         * @param int $id
+         * @param string $pseudo
+         * @param string $email
+         * @param string $pass
+         * @param string $status
          */
-        private function setDataUser()
-        {
-                $this->user["pseudo"] = $this->post["pseudo"];
-                $this->user["email"]  = $this->post["email"];
-                $this->user["pass"]   = password_hash($this->post["pass"], PASSWORD_DEFAULT);
-                $this->user["status"] = 1;
-
-                ModelFactory::getModel("User")->createData($this->user);
-        }
-
-
-        /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-        */
-        public function updateUserMethod()
-        {
-            if (!empty($this->post["newPass"] || !empty($this->post["newEmail"])))
-            {
-                $this->newData = 
-                    [ "newPass"  => $this->post["newPass"],
-                      "newEmail" => $this->post["newEmail"] ];
-
-                ModelFactory::getModel("User")->updateData($this->post["newPass"], $this->session["id"]);
-
-            }
-        }
-
-        /**
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-         */
-        public function logoutMethod()
-        {
-        $this->sessiondestroyMethod();
-        $this->redirect('home');
-        }
-
-        /**
-         * Création de la session avec les données de l'utilisateur
-         * @param array userData
-         */
-        private function setSession(int $id, string $pseudo, string $email, string $pass, string $status)
-        {
+        private function setSession(int $id, string $pseudo, string $email, string $pass, string $status) {
             $_SESSION['user'] = [
                 'id'     => $id,
                 'pseudo' => $pseudo,
@@ -128,14 +91,6 @@
                 'pass'   => $pass,
                 'status' => $status
             ];
-        }
-
-        /**
-         * @return void
-         */
-        private function sessiondestroy()
-        {
-            $_SESSION['user'] = [];
         }
 
     }

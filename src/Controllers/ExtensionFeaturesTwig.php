@@ -18,9 +18,7 @@
         public function getFunctions()
         {
             return array(
-                new TwigFunction('url', array($this, 'url')),
-                new TwigFunction("redirect", array($this, "redirect")),
-                new TwigFunction("checkRole", array($this, "checkRole"))
+                new TwigFunction('url', array($this, 'url'))
             );
         }
 
@@ -36,14 +34,4 @@
             return 'index.php?' . http_build_query($params);
         }
 
-        /**
-         * Permet une redirection
-         * @param string $page
-         * @param array $params
-         */
-        public function redirect(string $page, array $params = [])
-        {
-            header("Location: " . $this->url($page, $params));
-            exit;
-        }
     }
