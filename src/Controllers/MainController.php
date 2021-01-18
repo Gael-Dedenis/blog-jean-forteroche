@@ -29,11 +29,6 @@
         protected $post = null;
 
         /**
-         * @var array
-         */
-        protected $allValues = [];
-
-        /**
          * @var mixed|null
          */
         protected $session = [];
@@ -46,19 +41,7 @@
 
             $this->post    = filter_input_array(INPUT_POST);
             $this->get     = filter_input_array(INPUT_GET);
-
-            $this->$allValues = $this->getAllValues();
-
             $this->session = filter_var_array($_SESSION);
-        }
-
-        public function getAllValues() {
-            $this->allValues = [
-                "dataPost" => $_POST,
-                "dataGet"  => $_GET
-            ];
-
-            return filter_var_array($this->allValues);
         }
 
         /**
@@ -79,6 +62,16 @@
          */
         public function redirect(string $page, array $params = []) {
             header("Location: " . $this->url($page, $params));
+            exit;
+        }
+
+        /**
+         * Rafraichit la page.
+         * @param string $page
+         * @return string;
+         */
+        public function refreshComments($chapter) {
+            header('Location: index.php?id=' . $chapter . '&access=posts!read');
             exit;
         }
 

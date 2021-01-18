@@ -34,11 +34,12 @@
         /**
          * On récupère les données d'un post sélectionné par son ID.
          * Dans le tableau "chapter" on va inclure les commentaires lié à l'ID du post.
+         * @param string $id_chapter
          * @return array
          */
-        private function getData(){
-            $this->chapter                     = ModelFactory::getModel("Posts")->readData($this->get["id"]);
-            $this->chapter["comments"]         = ModelFactory::getModel("Comments")->listData($this->get["id"],"post_id");
+        private function getData(string $id_chapter) {
+            $this->chapter                     = ModelFactory::getModel("Posts")->readData($id_chapter);
+            $this->chapter["comments"]         = ModelFactory::getModel("Comments")->listData($id_chapter,"post_id");
             $this->chapter["comments_authors"] = ModelFactory::getModel("Users")->listData();
 
             return $this->chapter;
@@ -52,7 +53,7 @@
          * @throws SyntaxError
          */
         public function readMethod() {
-            $this->getData();
+            $this->getData($this->get["id"]);
 
             return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
         }
