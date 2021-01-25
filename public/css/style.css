@@ -15,22 +15,35 @@ blockquote p {
   font-size: 25px;
 }
 
-.mg-y {
-  margin-top: 35px;
-  margin-bottom: 40px;
+.hight-margin {
+  margin-top: 13vh;
+  margin-bottom: 4vh;
 }
 
-.hight-mg-y {
-  margin-top: 40px;
+.medium-margin {
+  margin-top: 3vh;
+  margin-bottom: 7vh;
+}
+
+.small-margin {
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+.hight-margin-b {
+  margin-bottom: 23vh;
+}
+
+.height-min {
   min-height: 600px;
+}
+
+.height-min-xl {
+  min-height: 850px;
 }
 
 .max-width-img {
   max-width: 350px;
-}
-
-.bg-my-lightblue {
-  background-color: #e3f2fd;
 }
 
 .text-underline {
