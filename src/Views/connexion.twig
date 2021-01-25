@@ -8,13 +8,13 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center">Se connecter</h1>
+    <h1 class="mg-y text-center hight-margin">Se connecter</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <section class="container text-center">
+    <section class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-4">
 
         <form method='post' action='{{ url("user") }}' class="form-group">
 
@@ -32,11 +32,11 @@
 
             </div>
 
-            <input type="submit" value="Connexion" class="btn btn-primary">
+            <input type="submit" value="Connexion" class="btn btn-primary mt-2 mb-5">
 
         </form>
 
-        <h2 class="mg-y">Pas de compte ?</h2>
+        <h2 class="mg-y small-margin">Pas de compte ?</h2>
         <p>Créez un compte <a href='{{ url("user!create") }}'>ici</a>.</p>
 
     </section>

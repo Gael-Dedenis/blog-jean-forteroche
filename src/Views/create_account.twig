@@ -8,15 +8,34 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center">Créer un compte</h1>
+    <h1 class="mg-y text-center hight-margin">Créer un compte</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <div class="container text-center mb-5 mt-5">
+    <div class="container text-center  hight-margin-b border border-secondary rounded-lg shadow-lg p-3">
 
-        <form class="form-group" action="{{ url('user!create') }}" method="post">
+        <pre>
+            {{ dump(errors) }}
+        </pre>
+
+        {% if errors is not empty %}
+
+            <div class="alert alert-danger">
+                <p>Vous n'avez pas rempli le formulaire correctement !</p>
+                <ul>
+                    {% for error in errors %}
+
+                        <li>{{ error.dataErrors }}</li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+
+        {% endif %}
+
+        <form class="form-group" action="{{ url('user!create') }}" method="post" novalidate>
 
             <div class="form-group col-6 offset-3">
 
@@ -36,6 +55,13 @@
 
                 <label for="pass" class="col-sm-4 col-form-label">Mot de passe</label>
                 <input type="password" class="form-control" id="pass" name="pass" autocomplete="off" required>
+
+            </div>
+
+            <div class="form-group col-6 offset-3">
+
+                <label for="pass_confirm" class="col-sm-4 col-form-label">Confirmez mot de passe</label>
+                <input type="password" class="form-control" id="pass_confirm" name="pass_confirm" autocomplete="off" required>
 
             </div>
 
