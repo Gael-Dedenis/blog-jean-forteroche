@@ -75,13 +75,11 @@
          */
         public function readData(string $value, string $key = null)
         {
-            if (isset($key))
-            {
+            if (isset($key)) {
                 $query = "SELECT * FROM " . $this->table . " WHERE " . $key . " = ?";
+            } else {
+                $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
             }
-
-            $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
-
             return $this->database->getData($query, [$value]);
         }
 
