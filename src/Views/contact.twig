@@ -8,34 +8,34 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center">Me contacter</h1>
+    <h1 class="mg-y text-center hight-margin">Me contacter</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <section class="container text-center">
+    <section class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-4">
 
-        <form class="form-group col-10 offset-1" action="{{ url('contact!default') }}" method="POST" enctype="multipart/form-data">
+        <form class="form-group" action="{{ url('contact!default') }}" method="POST" enctype="multipart/form-data">
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-8 offset-2">
 
-                <label for="pseudo" class="col-sm-6 col-form-label">Votre pseudo</label>
+                <label for="pseudo" class="col-sm-8 col-form-label">Votre pseudo</label>
                 <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="john-doe01" required>
 
             </div>
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-8 offset-2">
  
-                <label for="email" class="col-sm-6 col-form-label">Votre mail</label>
+                <label for="email" class="col-sm-8 col-form-label">Votre mail</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="john@doe.gmail" required>
 
             </div>
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-8 offset-2">
 
-                <label for="message" class="col-sm-6 col-form-label">Votre message</label>
-                <textarea id="message" class="form-control" name="message" placeholder="Votre message" rows="5" cols="20"></textarea>
+                <label for="message" class="col-sm-8 col-form-label">Votre message</label>
+                <textarea id="message" class="form-control" name="message" placeholder="Votre message" rows="6" cols="120"></textarea>
 
             </div>
 
