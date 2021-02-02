@@ -59,18 +59,6 @@
         }
 
         /**
-         * On récupère les données du nouveau chapitre.
-         * @return array
-         */
-        private function getNewData() {
-            $this->chapter["newTitle"]   = $this->post("newTitle");
-            $this->chapter["newContent"] = $this->post("newContent");
-            $this->chapter["date"]       = $this->date("y-m-d h:i:s");
-
-            return $this->chapter;
-        }
-
-        /**
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
@@ -78,16 +66,32 @@
          */
         public function createMethod() {
 
-            if (!empty($this->chapter)) {
+
+
+            if (!empty($this->post)) {
                 $this->getNewData();
 
+                echo "<p><pre>" . var_dump($this->chapter) . "</pre></p>";
+                die;
+
                 ModelFactory::getModel("Posts")->createData($this->chapter);
-                $this->redirect("posts");
+                $this->redirect("admin");
             }
 
             return $this->render("backend/admin_createChapter.twig");
         }
 
+        /**
+         * On récupère les données du nouveau chapitre.
+         * @return array
+         */
+        private function getNewData() {
+            $this->chapter["title"]        = $this->post["chapter_title"];
+            $this->chapter["content"]      = $this->post["chapter_content"];
+            $this->chapter["created_date"] = date("d-m-y h:i:s");
+
+            return $this->chapter;
+        }
         /**
          * @return string
          * @throws LoaderError
@@ -102,10 +106,13 @@
             */
         public function modifyMethod()
         {
-            $this->getNewData();
 
-            if (!empty($this->chapter))
+            if (!empty($this->post))
             {
+                $this->chapter["title"]        = $this->post["chapter_title"];
+                $this->chapter["content"]      = $this->post["chapter_content"];
+                $this->chapter["modified_date"] = date("d-m-y h:i:s");
+
                 ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
 
                 $this->redirect("posts");
