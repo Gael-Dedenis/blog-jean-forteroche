@@ -8,30 +8,64 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center text-underline">Panneau d'administration</h1>
+    <h1 class="mg-y hight-margin text-center text-underline">Panneau d'administration</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <section>
+    <section class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg">
 
         <ul class="list-group list-group-flush container">
 
-            <li class="list-group-item">
+            <li class="list-group-item p-5">
+                <h3> Créer un nouveau chapitre</h3>
                 <a href="{{ url('posts!create') }}">Créer un chapitre</a>
             </li>
 
-            <li class="list-group-item">
-                <a href="{{ url('posts!modify') }}">Modifier un chapitre</a>
+            <li class="list-group-item p-5">
+                <h3>Modifier un chapitre</h3>
+                <form class="form-group" action="{{ url('posts!modify') }}" method="post">
+
+                    <div class="form-group col-6 offset-3">
+                        <label for="chapterSelect" class="mb-2">Chapitre à modifier</label>
+                        <select id="chapterSelect" class="form-control mt-1 mb-3">
+                        {% for chapter in chapters %}
+
+                            <option>
+                                {{ chapter.title }}
+                            </option>
+
+                        {% endfor %}
+                        </select>
+
+                    <button type="submit" class="btn btn-outline-primary mt-3">Modifier le chapitre</button>
+                </form>
             </li>
 
-            <li class="list-group-item">
-                <a href="{{ url('posts!delete') }}">Supprimer un chapitre</a>
+            <li class="list-group-item p-5">
+                <h3>Supprimer un chapitre</h3>
+                <form class="form-group" action="{{ url('posts!delete') }}" method="post">
+
+                    <div class="form-group col-6 offset-3">
+                        <label for="chapterSelect" class="mb-2">Chapitre à supprimer</label>
+                        <select id="chapterSelect" class="form-control mt-1 mb-3">
+                        {% for chapter in chapters %}
+
+                            <option>
+                                {{ chapter.title }}
+                            </option>
+
+                        {% endfor %}
+                        </select>
+
+                    <button type="submit" class="btn btn-outline-primary mt-3">Supprimer le chapitre</button>
+                </form>
             </li>
 
-            <li class="list-group-item">
-                <a href="{{ url('comments!delete') }}">Gérer les commentaires signalés</a>
+            <li class="list-group-item p-5">
+                <h3>Gérer les commentaires signalés</h3>
+                <a href="{{ url('comments!delete') }}">Gérer</a>
             </li>
 
         </ul>

@@ -8,41 +8,28 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center hight-margin">Créer un compte</h1>
+    <h1 class="mg-y text-center text-underline hight-margin">Créer un compte</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <div class="container text-center  hight-margin-b border border-secondary rounded-lg shadow-lg p-3">
-
-        <pre>
-            {{ dump(errors) }}
-        </pre>
-
-        {% if errors is not empty %}
-
-            <div class="alert alert-danger">
-                <p>Vous n'avez pas rempli le formulaire correctement !</p>
-                <ul>
-                    {% for error in errors %}
-
-                        <li>{{ error.dataErrors }}</li>
-
-                    {% endfor %}
-                </ul>
-            </div>
-
-        {% endif %}
+    <div class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-3">
 
         <form class="form-group" action="{{ url('user!create') }}" method="post" novalidate>
 
             <div class="form-group col-6 offset-3">
 
                 <label for="pseudo" class="col-sm-4 col-form-label">pseudo</label>
-                <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="john-doe01" required>
+                <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="(Caractères alphanumériques et underscore uniquement)" required>
 
             </div>
+
+            {% if erreurs.pseudo is not empty %}
+                <p class="border border-danger rounded-lg p-2">
+                    {{ erreurs.pseudo }}
+                </p>
+            {% endif %}
 
             <div class="form-group col-6 offset-3">
 
@@ -50,6 +37,12 @@
                 <input type="email" class="form-control" id="email" name="email" placeholder="john@doe.gmail" required>
 
             </div>
+
+            {% if erreurs.email is not empty %}
+                <p class="border border-danger rounded-lg p-2">
+                    {{ erreurs.email }}
+                </p>
+            {% endif %}
 
             <div class="form-group col-6 offset-3">
 
@@ -65,6 +58,11 @@
 
             </div>
 
+            {% if erreurs.pass is not empty %}
+                <p class="border border-danger rounded-lg p-2">
+                    {{ erreurs.pass }}
+                </p>
+            {% endif %}
 
             <button type="submit" class="btn btn-primary mt-4">Créer mon compte</button>
 

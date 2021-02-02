@@ -1,0 +1,43 @@
+{% extends "layout/layout.twig" %}
+
+{% block title %}
+
+    Administration création de chapitre
+
+{% endblock %}
+
+{% block header %}
+
+    <h1 class="mg-y medium-margin text-center text-underline">Editer un nouveau chapitre</h1>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-3">
+
+        <form class="form-group" action="{{ url('posts!create') }}" method="post">
+
+            <div class="form-group col-6 offset-3">
+
+                <label for="chapter_title" class="col-sm-4 col-form-label">Titre du chapitre</label>
+                <input type="text" class="form-control" id="chapter_title" name="chapter_title" placeholder="Titre" required>
+
+            </div>
+
+            <div class='form-group'>
+                {% autoescape %}
+                    {% set editor = "<label for='chapter_content'>Contenu du chapitre</label>
+                                     <textarea type='text' id='chapter_content' name='chapter_content' required></textarea>" %}
+
+                    {{ editor|raw }}
+                {% endautoescape %}
+            </div>
+
+            <input type="submit" class="btn btn-outline-primary mt-4" value="Créer le chapitre">
+
+        </form>
+
+    </div>
+
+{% endblock %}

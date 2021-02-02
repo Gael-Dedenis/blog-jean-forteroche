@@ -22,9 +22,10 @@
          */
         public function defaultMethod()
         {
-            if ($this->checkRole() === "admin")
+            if ($this->session["user"]["status"] === "2")
             {
-                return $this->render("backend/admin.twig");
+                $allChapters = ModelFactory::getModel("Posts")->listData();
+                return $this->render("backend/admin.twig", ["chapters" => $allChapters]);
             }
 
             $this->redirect("home");

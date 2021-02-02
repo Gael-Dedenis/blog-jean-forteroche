@@ -103,9 +103,9 @@
             if (isset($key))
             {
                 $query = "UPDATE " . $this->table . " SET " . $set . " WHERE " . $key . " = ?";
+            } else {
+                $query = "UPDATE " . $this->table . " SET " . $set . " WHERE id = ?";
             }
-
-            $query = "UPDATE " . $this->table . " SET " . $set . " WHERE id = ?";
 
             $this->database->setData($query, [$value]);
         }
@@ -119,9 +119,9 @@
         {
             if (isset($key)) {
                 $query = "DELETE FROM " . $this->table . " WHERE " . $key . " = ?";
+            } else {
+                $query = "DELETE FROM " . $this->table . " WHERE id = ?";
             }
-
-            $query = "DELETE FROM " . $this->table . " WHERE id = ?";
 
             $this->database->setData($query, [$value]);
         }
