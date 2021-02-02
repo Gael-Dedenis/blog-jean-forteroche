@@ -14,7 +14,7 @@
     class UserController extends MainController
     {
         /**
-         * @var mixed
+         * @var mixed|null
          */
         private $user = null;
 
@@ -42,7 +42,6 @@
         */
         private function checkLogUser() {
 
-            $user = [];
             $user = ModelFactory::getModel('Users')->readData($this->post['email'], 'email');
 
             if(password_verify($this->post['pass'], $user['pass'])) {
@@ -83,58 +82,44 @@
         */
 
         public function createMethod() {
+            $validation = [];
+
             if(!empty($this->post)) {
-                $this->checkForms();
+                $validation = $this->setCheckForms();
+            }
+
+            if(!$validation) {
+                $erreurs = isset($this->session["erreurs"]) ? $this->session["erreurs"] : NULL;
+                // si $this->session["erreurs"] existe $erreurs vaudra $this->session["erreurs"] sinon vaudra "NULL"
+
+                return $this->render("create_account.twig", ["erreurs" => $erreurs]);
             }
 
             return $this->render("create_account.twig");
-            }
+        }
 
         /**
          * @return bool
          */
-        private function checkForms() {
-            $errors = [];
+        private function setCheckForms() {
 
-            if(empty($this->post["pseudo"]) || !preg_match('/^[a-zA-Z0-9_]+$/', $this->post["pseudo"])) {
-                $errors["pseudo"] = "Votre pseudo doit contenir que des caractères alphanumériques et underscores !";
-            } else {
-                $checkPseudo = ModelFactory::getModel("Users")->readData($this->post["pseudo"], "pseudo");
+            $this->checkForms();
 
-                if($checkPseudo) {
-                    $errors["pseudo"] = "Ce pseudo est déjà pris !";
-                }
-            }
-
-            if(empty($this->post["email"]) || !filter_var($this->post["email"], FILTER_VALIDATE_EMAIL)) {
-                $errors["email"] = "Email invalide !";
-            } else {
-                $checkEmail = ModelFactory::getModel("Users")->readData($this->post["email"], "email");
-
-                if($checkEmail) {
-                    $errors["email"] = "Cet email est déjà utilisé pour un autre compte !";
-                }
-            }
-
-            if(empty($this->post["pass"]) || empty($this->post["pass_confirm"]) || $this->post["pass"] !== $this->post["pass_confirm"]) {
-                $errors["pass"] = "Vous devez remplir un mot de passe valide et le confirmé !";
-            }
-
-            if(empty($errors)) {
+            if(empty($this->session["erreurs"]) || $this->session == null ) {
+                $this->session["erreurs"] = [];
                 $this->setDataUser();
-            } else {
-                $this->user["dataErrors"] = $errors;
-                return $this->render("create_account.twig", ["errors" => $this->user]);
-            }
+            } 
+
+            return false;
         }
 
         /**
          * Récupération des données du nouvel utilisateur. Puis redirection sur le formulaire de connection.
          */
         private function setDataUser() {
-                $this->user["pseudo"] = $_POST["pseudo"];
-                $this->user["email"]  =  $_POST["email"];
-                $this->user["pass"]   = password_hash( $_POST["pass"], PASSWORD_DEFAULT);
+                $this->user["pseudo"] = $this->post["pseudo"];
+                $this->user["email"]  =  $this->post["email"];
+                $this->user["pass"]   = password_hash( $this->post["pass"], PASSWORD_DEFAULT);
                 $this->user["status"] = 1;
 
                 ModelFactory::getModel("Users")->createData($this->user);
@@ -160,4 +145,89 @@
             $_SESSION['user'] = [];
         }
 
+        /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+        */
+        public function modifyMethod() {
+            $newData    = [];
+            $erreurs    = [];
+            $validation = null;
+
+            if(!empty($this->post)) {
+                $validation = $this->setCheckChange();
+            }
+
+            if(!$validation) {
+
+                $erreurs = isset($this->session["erreurs"]) ? $this->session["erreurs"] : NULL;
+                // si $this->session["erreurs"] existe $erreurs vaudra $this->session["erreurs"] sinon vaudra "NULL"
+
+                return $this->render("account.twig", ["erreurs" => $erreurs]);
+
+            } elseif ($validation) {
+                if(!$this->post["email"] === null || !$this->post["email"] === "" || !empty($this->post["email"])) {
+
+                    $newData["email"] = $this->post["email"];
+
+                    $_SESSION["user"]["email"] = $this->post["email"];
+
+                } elseif(!$this->post["pass"] === null || !$this->post["pass"] === "" || !empty($this->post["pass"])) {
+
+                    $newData["pass"] = password_hash( $this->post["pass"], PASSWORD_DEFAULT);
+
+                }
+
+                 ModelFactory::getModel("Users")->updateData($this->session["user"]["id"], $newData);
+
+                 $this->redirect("user!modify");
+            }
+
+            $_Session["erreurs"] = [];
+            return $this->render("account.twig");
+        }
+
+        /**
+         * Vérification des données reçues par les formulaires pour modifier les données utilisateurs.
+         * @return bool
+         */
+        private function setCheckChange() {
+            if(!empty($this->post["email"])) {
+                $this->checkForms($type = "email");
+
+                if(empty($this->session["erreurs"]["email"])) {
+                    return true;
+                }
+                return false;
+            }
+            if(!empty($this->post["pass"])) {
+                $this->checkForms($type = "password");
+
+                if(empty($this->session["erreurs"]["pass"])) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+         /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function deleteMethod()
+        {
+            $getCommentsUser = ModelFactory::getModel("Comments")->listData($this->session["user"]["id"], "user_id");
+
+             if(!empty($getCommentsUser)) {
+                ModelFactory::getModel("Comments")->deleteData($this->session["user"]["id"], "user_id");
+            }
+
+            ModelFactory::getModel("Users")->deleteData($this->session["user"]["id"], "id");
+
+            $this->logoutMethod();
+        }
     }
