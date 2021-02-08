@@ -100,5 +100,41 @@
 
             $this->refreshComments($this->chapter);
         }
-        
+
+        /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function adminMethod() {
+            $this->comments["reported"]  = ModelFactory::getModel('Comments')->listData("1", "reported");
+            $this->comments["authors"]   = ModelFactory::getModel("Users")->listData();
+
+            return $this->render("backend/admin_reported.twig", ["comments" => $this->comments]);
+        }
+
+        /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function unreportMethod() {
+            ModelFactory::getModel('Comments')->updateData($this->get["id"], ['reported' => 0]);
+
+            $this->redirect("comments!admin");
+        }
+
+        /**
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function cleanMethod() {
+            ModelFactory::getModel('Comments')->deleteData($this->get['id']);
+
+            $this->redirect("comments!admin");
+        }
     }
