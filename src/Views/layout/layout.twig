@@ -76,37 +76,13 @@
             tinymce.init({
             selector: "textarea#chapter_content",
             language: "fr_FR",
+            height: 600,
             forced_root_block : false,
+            force_br_newlines : true,
             force_p_newlines : false,
             nonbreaking_force_tab: true,
-            protect: [
-                /\<\/?(if|endif)\>/g,  // Protect <if> & </endif>
-                /\<xsl\:[^>]+\>/g,  // Protect <xsl:...>
-                /<\?php.*?\?>/g  // Protect php code
-            ],
-            plugins: "advlist autolink autoresize autosave charmap emoticons help hr importcss link lists nonbreaking pagebreak paste preview print save searchreplace table wordcount",
-            menubar: "file edit view insert format table tools help",
-            toolbar: " undo redo | fontselect fontsizeselect styleselect | forecolor backcolor removeformat | bold italic underline strikethrough | searchreplace | alignleft aligncenter alignright alignjustify | outdent indent | nonbreaking pagebreak | paste pastetext | numlist bullist charmap emoticons",
-            toolbar_sticky: true,
-            default_link_target: "_blank",
-            min_height: 400,
-            max_height: 650,
-            autosave_ask_before_unload: true,
-            autosave_interval: "30s",
-            autosave_prefix: "chapitre-{path}{query}-{id}-",
-            autosave_restore_when_empty: false,
-            autosave_retention: "10m",
-            emoticons_database: "emojis",
-            fullscreen_native: false,
-            content_css: [
-                "//fonts.googleapis.com/css2?family=Dancing+Script&display=swap",
-                "//www.tiny.cloud/css/codepen.min.css"
-            ],
-            importcss_append: true,
         });
         </script>
-
-        {% block script %}{% endblock %}
 
     </body>
 
