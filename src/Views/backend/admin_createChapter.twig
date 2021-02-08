@@ -16,7 +16,7 @@
 
     <div class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-3">
 
-        <form class="form-group" action="{{ url('posts!create') }}" method="post">
+        <form class="form-group" action="{{ url("posts!create") }}" method="post">
 
             <div class="form-group col-6 offset-3">
 
@@ -25,16 +25,13 @@
 
             </div>
 
-            <div class='form-group'>
-                {% autoescape %}
-                    {% set editor = "<label for='chapter_content'>Contenu du chapitre</label>
-                                     <textarea type='text' id='chapter_content' name='chapter_content' required></textarea>" %}
-
-                    {{ editor|raw }}
-                {% endautoescape %}
+            <div class="form-group">
+                <label for="chapter_content">Contenu du chapitre</label>
+                <textarea id="chapter_content" name="chapter_content"></textarea>
             </div>
 
             <input type="submit" class="btn btn-outline-primary mt-4" value="Créer le chapitre">
+        <!-- <button type="submit" class="btn btn-outline-primary mt-4" name="submitbtn">Créer le chapitre</button> -->
 
         </form>
 
