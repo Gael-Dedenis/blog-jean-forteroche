@@ -19,6 +19,11 @@
         private $chapter = [];
 
         /**
+         * @var
+        */
+        private $type = null;
+
+        /**
          * On récupère touts les posts dans la base de données. Puis on envoie le résultat à la Vue.
          * @return string
          * @throws LoaderError
@@ -29,6 +34,19 @@
             $allPosts = ModelFactory::getModel("Posts")->listData();
 
             return $this->render("allposts.twig", ["posts" => $allPosts]);
+        }
+
+        /**
+         * On appel la fonction getData puis on envoie le tableau obtenue à la Vue. 
+         * @return string
+         * @throws LoaderError
+         * @throws RuntimeError
+         * @throws SyntaxError
+         */
+        public function readMethod() {
+            $this->getData($this->get["id"]);
+
+            return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
         }
 
         /**
@@ -46,19 +64,6 @@
         }
 
         /**
-         * On appel la fonction getData puis on envoie le tableau obtenue à la Vue. 
-         * @return string
-         * @throws LoaderError
-         * @throws RuntimeError
-         * @throws SyntaxError
-         */
-        public function readMethod() {
-            $this->getData($this->get["id"]);
-
-            return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
-        }
-
-        /**
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
@@ -66,13 +71,8 @@
          */
         public function createMethod() {
 
-
-
             if (!empty($this->post)) {
                 $this->getNewData();
-
-                echo "<p><pre>" . var_dump($this->chapter) . "</pre></p>";
-                die;
 
                 ModelFactory::getModel("Posts")->createData($this->chapter);
                 $this->redirect("admin");
@@ -82,45 +82,48 @@
         }
 
         /**
-         * On récupère les données du nouveau chapitre.
-         * @return array
-         */
-        private function getNewData() {
-            $this->chapter["title"]        = $this->post["chapter_title"];
-            $this->chapter["content"]      = $this->post["chapter_content"];
-            $this->chapter["created_date"] = date("d-m-y h:i:s");
-
-            return $this->chapter;
-        }
-        /**
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
          * @throws SyntaxError
          */
-            /*
-                On créer une variable propre à cette méthode avec un tableau vide pour stocker les modifs.
-                Si il y a des modifications, on les récupères puis on passe le tableau des mofids à updateModifs.
-                Ensuite on redirige sur la page "administration".
-                Sinon on affiche la Vue permettant la modification avec le chapitre sélectionné (avec son ID).
-            */
         public function modifyMethod()
         {
+            if(!empty($this->post)) {
+                $this->getNewData($this->type = "modify");
 
-            if (!empty($this->post))
-            {
-                $this->chapter["title"]        = $this->post["chapter_title"];
-                $this->chapter["content"]      = $this->post["chapter_content"];
-                $this->chapter["modified_date"] = date("d-m-y h:i:s");
+                ModelFactory::getModel("Posts")->updateData($this->post["chapter_id"], $this->chapter);
 
-                ModelFactory::getModel("Posts")->updateData($this->get["id"], $this->chapter);
-
-                $this->redirect("posts");
+                $this->redirect("admin");
             }
 
-            $this->chapter = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+            $this->chapter["selectedPost"] = ModelFactory::getModel("Posts")->readData($this->get["id"]);
 
-            return $this->render("backend/admin_modifyPost.twig", ["post" => $this->chapter]);
+            return $this->render("backend/admin_modifyPost.twig", ["chapterToModify" => $this->chapter["selectedPost"]]);
+        }
+
+        /**
+         * On récupère les données du nouveau chapitre.
+         * @param string type
+         * @return array
+         */
+        private function getNewData(string $type) {
+
+            switch($type) {
+                case "modify":
+                    $this->chapter["title"]         = $this->post["chapter_title"];
+                    $this->chapter["content"]       = $this->post["chapter_content"];
+                    $this->chapter["modified_date"] = date("d-m-y h:i:s");
+                    return $this->chapter;
+                    break;
+
+                default:
+                    $this->chapter["title"]        = $this->post["chapter_title"];
+                    $this->chapter["content"]      = $this->post["chapter_content"];
+                    $this->chapter["created_date"] = date("d-m-y h:i:s");
+                    return $this->chapter;
+            }
+
         }
 
         /**
@@ -129,18 +132,18 @@
          * @throws RuntimeError
          * @throws SyntaxError
          */
-            /*
-                On récupère l'ID du post sélectionner.
-                Puis on va aller chercher touts les commentaires liés à ce post.
-                On vérifie si il y a des commentaires liés au post, si oui on les supprimes.
-                Puis on supprime le post.
-                Enfin on redirige sur la page "administration".
-            */
+
         public function deleteMethod()
         {
-            // ajouter un appel méthode suppression comments.
-            ModelFactory::getModel("Posts")->deleteData($this->get["id"]);
+            $this->chapter["allPost"]     = ModelFactory::getModel("Posts")->readData($this->post["chapterSelect"], "title");
+            $this->chapter["allComments"] = ModelFactory::getModel("Comments")->listData($this->chapter["allPost"]["id"], "post_id");
 
-            $this->redirect("administration");
+            if(!empty($this->chapter["allComments"])) {
+                ModelFactory::getModel("Comments")->deleteData($this->chapter["allPost"]["id"], "post_id");
+            }
+
+            ModelFactory::getModel("Posts")->deleteData($this->chapter["allPost"]["id"]);
+
+            $this->redirect("admin");
         }
     }
