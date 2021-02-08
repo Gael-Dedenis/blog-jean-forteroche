@@ -25,11 +25,19 @@
             if ($this->session["user"]["status"] === "2")
             {
                 $allChapters = ModelFactory::getModel("Posts")->listData();
-                return $this->render("backend/admin.twig", ["chapters" => $allChapters]);
+
+                $nbrReportedComms = count($this->countReportedComms());
+
+                return $this->render("backend/admin.twig", ["chapters" => $allChapters, "nbrReported" => $nbrReportedComms]);
             }
 
             $this->redirect("home");
         }
 
-
+        /**
+         * @return string|int
+         */
+        private function countReportedComms() {
+            return ModelFactory::getModel("Comments")->listdata("1", "reported");
+        }
     }

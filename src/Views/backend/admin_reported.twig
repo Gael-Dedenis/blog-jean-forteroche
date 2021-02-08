@@ -1,0 +1,59 @@
+{% extends "layout/layout.twig" %}
+
+{% block title %}
+
+    Administration gestion des commentaires signalés
+
+{% endblock %}
+
+{% block header %}
+
+    <h1 class="mg-y medium-margin text-center text-underline">Panneau de gestion des commentaires signalés</h1>
+
+{% endblock %}
+
+{% block content %}
+
+    {% if comments.reported is empty %}
+
+    <section class="hight-margin-b container">
+
+        <h3>Aucun commentaire signalé.</h3>
+
+    {% else %}
+
+    <section class="container">
+
+            <ul class="list-group list-group-flush container">
+
+                {% for comment in comments.reported %}
+
+                    <li class="list-group-item">
+
+                        <p>Commentaire écrit le : {{ comment.created_date|date("d/m/Y à h:m") }}</p>
+                        <p>Par {% for author in comments.authors %}
+
+                            {% if comment.user_id == author.id %}
+                                {{ author.pseudo }},
+                            {% endif %}
+
+                        {% endfor %}</p>
+                        <p>{{ comment.content }}</p>
+                        <a class="btn btn-outline-danger text-danger" href="{{ url('comments!clean', {'id': comment.id}) }}">
+                            Supprimer le commentaire
+                        </a>
+                        <a class="btn btn-outline-success text-success" href="{{ url('comments!unreport', {'id': comment.id}) }}">
+                            Autoriser le commentaire
+                        </a>
+
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% endif %}
+
+    </section>
+
+{% endblock %}

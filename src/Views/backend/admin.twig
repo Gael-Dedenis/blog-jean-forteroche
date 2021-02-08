@@ -25,22 +25,17 @@
 
             <li class="list-group-item p-5">
                 <h3>Modifier un chapitre</h3>
-                <form class="form-group" action="{{ url('posts!modify') }}" method="post">
+                <ul class="list-group list-group-flush container">
 
-                    <div class="form-group col-6 offset-3">
-                        <label for="chapterSelect" class="mb-2">Chapitre à modifier</label>
-                        <select id="chapterSelect" class="form-control mt-1 mb-3">
-                        {% for chapter in chapters %}
+                    {% for chapter in chapters %}
 
-                            <option>
-                                {{ chapter.title }}
-                            </option>
+                        <li class="list-group-item text-left col-6 offset-3">
+                            <a href="{{ url('posts!modify', {'id': chapter.id}) }}">{{ chapter.title }}</a>
+                        </li>
 
-                        {% endfor %}
-                        </select>
+                    {% endfor %}
 
-                    <button type="submit" class="btn btn-outline-primary mt-3">Modifier le chapitre</button>
-                </form>
+                </ul>
             </li>
 
             <li class="list-group-item p-5">
@@ -49,7 +44,7 @@
 
                     <div class="form-group col-6 offset-3">
                         <label for="chapterSelect" class="mb-2">Chapitre à supprimer</label>
-                        <select id="chapterSelect" class="form-control mt-1 mb-3">
+                        <select id="chapterSelect" name="chapterSelect" class="form-control mt-1 mb-3">
                         {% for chapter in chapters %}
 
                             <option>
@@ -59,13 +54,18 @@
                         {% endfor %}
                         </select>
 
+                    <p class="border border-danger rounded-lg text-danger p-2">Attention, action irréversible alors soyez sur de votre choix!</p>
                     <button type="submit" class="btn btn-outline-primary mt-3">Supprimer le chapitre</button>
                 </form>
             </li>
 
             <li class="list-group-item p-5">
-                <h3>Gérer les commentaires signalés</h3>
-                <a href="{{ url('comments!delete') }}">Gérer</a>
+                <h3><a href="{{ url('comments!admin') }}">Gérer les commentaires signalés</a></h3>
+                {% if nbrReported > 0 %}
+                    <p>Il y a actuellement {{ nbrReported }} commentaires signalés !</p>
+                {% else %}
+                    <p>Il n'y a pas de commentaire signalé !</p>
+                {% endif %}
             </li>
 
         </ul>
