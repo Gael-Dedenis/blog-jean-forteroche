@@ -2,15 +2,12 @@
 
     namespace App;
 
-    require_once "../config/config_dev.php";
+    require_once "../config/config.php";
 
     use App\Controllers\ExtensionFeaturesTwig;
     use Twig\Environment;
     use Twig\Loader\FilesystemLoader;
     use Twig\Extension\DebugExtension;
-    use Twig\Error\LoaderError;
-    use Twig\Error\RuntimeError;
-    use Twig\Error\SyntaxError;
 
     /**
      * Classe Router
@@ -52,10 +49,10 @@
          * Ajouts de fonctionnalités pour les Vues Twig.
          * @return mixed|void
          */
-        private function setEnvironment() {
+        public function setEnvironment() {
             $this->twig = new Environment(new FilesystemLoader("../src/Views"), array(
-                "cache" => false,
-                "debug" => true
+                "cache" => false, // mettre à la place "../cache" pour la version online/prod
+                'debug' => true  // à commenter pour la version online/prod
             ));
             $this->twig->addGlobal("session", $_SESSION);
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
@@ -83,7 +80,7 @@
          * @return mixed|void
          */
         public function setController() {
-            $this->controller = ucfirst(\strtolower($this->controller)) . "controller";
+            $this->controller = ucfirst(\strtolower($this->controller)) . "Controller";
             $this->controller = DEFAULT_PATH . $this->controller;
 
             if (!class_exists($this->controller)) {
