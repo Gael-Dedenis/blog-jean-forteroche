@@ -5,7 +5,7 @@
     use App\Models\MainModel;
 
     /**
-     * Classe CommentsModel
+     * Class CommentsModel
      * Manage les données Commentaires.
      * @package App\Models
      */

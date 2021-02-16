@@ -3,7 +3,7 @@
     namespace App\Models;
 
     /**
-     * Classe MainModel
+     * Class MainModel
      * Création des Queries et service CRUD.
      * @package App\Models
     */

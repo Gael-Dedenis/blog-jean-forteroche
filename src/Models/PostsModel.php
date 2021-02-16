@@ -5,7 +5,7 @@
     use App\Models\MainModel;
 
     /**
-     * Classe PostsModel
+     * Class PostsModel
      * Manage les données Posts.
      * @package App\Models
      */

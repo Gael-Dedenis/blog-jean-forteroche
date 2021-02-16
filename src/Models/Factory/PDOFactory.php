@@ -5,9 +5,9 @@
     use PDO;
 
     /**
-     * Classe PDOFactory.
+     * Class PDOFactory.
      * Actions: Créer une connection à la BD si aucune existe.
-     * @package App\Model
+     * @package App\Models
      */
 
     class PDOFactory
@@ -33,7 +33,6 @@
                     self::$pdo->exec("SET NAMES UTF8");
 
             }
-
             return self::$pdo;
         }
 

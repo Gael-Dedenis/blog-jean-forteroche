@@ -8,7 +8,6 @@
 
     /**
      * Class AboutMeController
-     * appel la page Qui suis-je ?
      * @package App\Controller
      */
     class AboutMeController extends MainController

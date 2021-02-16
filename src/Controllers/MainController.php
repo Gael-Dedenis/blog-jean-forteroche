@@ -9,7 +9,7 @@
     use Twig\Error\SyntaxError;
 
     /**
-     * Classe MainController
+     * Class MainController
      * @package App\Controller
      */
     abstract class MainController
@@ -52,8 +52,8 @@
          * @return string
          */
         public function url(string $page, array $params = []) {
-            $params["access"] = $page;
-            return "index.php?" . http_build_query($params);
+            $params['access'] = $page;
+            return 'index.php?' . http_build_query($params);
         }
 
         /**
@@ -62,7 +62,7 @@
          * @param array $params
          */
         public function redirect(string $page, array $params = []) {
-            header("Location: " . $this->url($page, $params));
+            header('Location: ' . $this->url($page, $params));
             exit;
         }
 
@@ -94,15 +94,15 @@
          */
         public function checkForms(string $type = null) {
             switch($type) {
-                case "pseudo":
+                case 'pseudo':
                     $this->checkPseudo();
                     break;
 
-                case "email":
+                case 'email':
                     $this->checkEmail();
                     break;
 
-                case "password":
+                case 'password':
                     $this->checkPass();
                     break;
 
@@ -117,15 +117,15 @@
          * @return array
          */
         private function checkPseudo() {
-            if(empty($this->post["pseudo"]) || !preg_match('/^[a-zA-Z0-9_]+$/', $this->post["pseudo"])) {
-                $this->session["erreurs"]["pseudo"] = "Votre pseudo doit contenir que des caractères alphanumériques et underscores !";
-                return $this->session["erreurs"];
+            if(empty($this->post['pseudo']) || !preg_match('/^[a-zA-Z0-9_]+$/', $this->post['pseudo'])) {
+                $this->session['erreurs']['pseudo'] = 'Votre pseudo doit contenir que des caractères alphanumériques et underscores !';
+                return $this->session['erreurs'];
             } else {
-                $checkPseudo = ModelFactory::getModel("Users")->readData($this->post["pseudo"], "pseudo");
+                $checkPseudo = ModelFactory::getModel('Users')->readData($this->post['pseudo'], 'pseudo');
 
                 if($checkPseudo) {
-                    $this->session["erreurs"]["pseudo"] = "Ce pseudo est déjà pris !";
-                    return $this->session["erreurs"];
+                    $this->session['erreurs']['pseudo'] = 'Ce pseudo est déjà pris !';
+                    return $this->session['erreurs'];
                 }
             }
         }
@@ -134,14 +134,14 @@
          * @return array
          */
         private function checkEmail() {
-            if(empty($this->post["email"]) || !filter_var($this->post["email"], FILTER_VALIDATE_EMAIL)) {
-                $this->session["erreurs"]["email"] = "Email invalide !";
-                return $this->session["erreurs"];
+            if(empty($this->post['email']) || !filter_var($this->post['email'], FILTER_VALIDATE_EMAIL)) {
+                $this->session['erreurs']['email'] = 'Email invalide !';
+                return $this->session['erreurs'];
             } else {
-                $checkEmail = ModelFactory::getModel("Users")->readData($this->post["email"], "email");
+                $checkEmail = ModelFactory::getModel('Users')->readData($this->post['email'], 'email');
                 if($checkEmail) {
-                    $this->session["erreurs"]["email"] = "Cet email est déjà utilisé pour un autre compte !";
-                    return $this->session["erreurs"];
+                    $this->session['erreurs']['email'] = 'Cet email est déjà utilisé pour un autre compte !';
+                    return $this->session['erreurs'];
                 }
             }
         }
@@ -150,9 +150,9 @@
          * @return array
          */
         private function checkPass() {
-            if(empty($this->post["pass"]) || empty($this->post["pass_confirm"]) || $this->post["pass"] !== $this->post["pass_confirm"]) {
-                $this->session["erreurs"]["pass"] = "Vous devez remplir un mot de passe valide et le confirmé !";
-                return $this->session["erreurs"];
+            if(empty($this->post['pass']) || empty($this->post['pass_confirm']) || $this->post['pass'] !== $this->post['pass_confirm']) {
+                $this->session['erreurs']['pass'] = 'Vous devez remplir un mot de passe valide et le confirmé !';
+                return $this->session['erreurs'];
             }
         }
 
