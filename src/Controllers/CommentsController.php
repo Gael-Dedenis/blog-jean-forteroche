@@ -8,7 +8,7 @@
     use Twig\Error\SyntaxError;
     
     /**
-     * Classe CommentsController
+     * Class CommentsController
      * @package App\Controllers
      */
     class CommentsController extends MainController

@@ -8,7 +8,7 @@
     use Twig\Error\SyntaxError;
 
     /**
-     * Classe UserController
+     * Class UserController
      * @package App\Controller
      */
     class UserController extends MainController

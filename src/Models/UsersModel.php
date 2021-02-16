@@ -5,7 +5,7 @@
     use App\Models\MainModel;
 
     /**
-     * Classe UsersModel
+     * Class UsersModel
      * Manage les données Users.
      * @package App\Models
      */

@@ -5,9 +5,9 @@
     use App\Models\PdoDb;
 
     /**
-     * Classe ModelFactory.
+     * Class ModelFactory.
      * Actions: Création de model si il n'existe pas.
-     * @package App\Model
+     * @package App\Models
      */
 
     class ModelFactory
@@ -32,8 +32,7 @@
             }
 
             $class                = "App\Models\\" . \ucfirst($table) . "Model";
-            self::$models[$table] = new $class(new PdoDb(PdoFactory::getPDO()));
-
+            self::$models[$table] = new $class(new PdoDb(PDOFactory::getPDO()));
             return self::$models[$table];
         }
 

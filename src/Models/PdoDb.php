@@ -5,7 +5,7 @@
     use PDO;
 
     /**
-     * Classe PdoDb
+     * Class PdoDb
      * Actions: préparation des Queries avant de les éxécutés et les retournés.
      * @package App\Models
      */
@@ -13,7 +13,7 @@
     {
 
         /**
-         * PDO connection stockée ou pas.
+         * PDO connection.
          * @var pdo
         */
         private $pdo = null;
