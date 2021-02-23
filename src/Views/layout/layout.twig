@@ -78,9 +78,16 @@
             language: "fr_FR",
             height: 600,
             forced_root_block : false,
-            force_br_newlines : true,
             force_p_newlines : false,
             nonbreaking_force_tab: true,
+            entity_encoding: "raw",
+            element_format : 'html',
+            protect: [
+            /\<\/?(if|endif)\>/g,  // Protect <if> & </endif>
+            /\<xsl\:[^>]+\>/g,  // Protect <xsl:...>
+            /<\?php.*?\?>/g  // Protect php code
+            ],
+
         });
         </script>
 

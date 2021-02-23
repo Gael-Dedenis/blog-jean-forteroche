@@ -4,7 +4,7 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center text-underline mb-5 mt-5">Lecture du {{ chapter.title }}</h1>
+    <h1 class="mg-y text-center text-underline mb-5 mt-5">Lecture du {{ chapter.title|raw }}</h1>
 
 {% endblock %}
 
@@ -14,7 +14,7 @@
 
         <div class="container d-inline align-middle">
 
-            <p class="pt-3">{{ chapter.content|nl2br }}</p>
+            <p class="pt-3">{{ chapter.chapter_content|raw }}</p>
 
         </div>
 
