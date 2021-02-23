@@ -57,6 +57,7 @@
          */
         private function getData(string $id_chapter) {
             $this->chapter                     = ModelFactory::getModel("Posts")->readData($id_chapter);
+            $this->chapter["chapter_content"]  = $this->chapter["content"];
             $this->chapter["comments"]         = ModelFactory::getModel("Comments")->listData($id_chapter,"post_id");
             $this->chapter["comments_authors"] = ModelFactory::getModel("Users")->listData();
 
@@ -72,9 +73,9 @@
         public function createMethod() {
 
             if (!empty($this->post)) {
-                $this->getNewData();
+                $this->getNewData($this->type = "");
 
-                ModelFactory::getModel("Posts")->createData($this->chapter);
+                ModelFactory::getModel('Posts')->createData($this->chapter);
                 $this->redirect("admin");
             }
 
@@ -92,14 +93,15 @@
             if(!empty($this->post)) {
                 $this->getNewData($this->type = "modify");
 
-                ModelFactory::getModel("Posts")->updateData($this->post["chapter_id"], $this->chapter);
+                ModelFactory::getModel('Posts')->updateData($this->post["chapter_id"], $this->chapter);
 
                 $this->redirect("admin");
             }
 
-            $this->chapter["selectedPost"] = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+            $this->chapter["selectedPost"]    = ModelFactory::getModel('Posts')->readData($this->get["id"]);
+            $this->chapter["chapter_content"] = $this->chapter["selectedPost"]["content"];
 
-            return $this->render("backend/admin_modifyPost.twig", ["chapterToModify" => $this->chapter["selectedPost"]]);
+            return $this->render("backend/admin_modifyPost.twig", ["chapterToModify" => $this->chapter["selectedPost"], "chapter_content" => $this->chapter["chapter_content"]]);
         }
 
         /**
@@ -111,15 +113,15 @@
 
             switch($type) {
                 case "modify":
-                    $this->chapter["title"]         = $this->post["chapter_title"];
-                    $this->chapter["content"]       = $this->post["chapter_content"];
+                    $this->chapter["title"]         = addslashes($this->post["chapter_title"]);
+                    $this->chapter["content"]       = addslashes($this->post["chapter_content"]);
                     $this->chapter["modified_date"] = date("d-m-y h:i:s");
                     return $this->chapter;
                     break;
 
                 default:
-                    $this->chapter["title"]        = $this->post["chapter_title"];
-                    $this->chapter["content"]      = $this->post["chapter_content"];
+                    $this->chapter["title"]        = addslashes($this->post["chapter_title"]);
+                    $this->chapter["content"]      = addslashes($this->post["chapter_content"]);
                     $this->chapter["created_date"] = date("d-m-y h:i:s");
                     return $this->chapter;
             }

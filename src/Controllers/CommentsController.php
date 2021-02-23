@@ -58,7 +58,7 @@
          * Créer le nouveau commentaire.
          */
         private function setNewComment() {
-            $this->comments["content"]      = $this->post["comment"];
+            $this->comments["content"]      = addslashes($this->post["comment"]);
             $this->comments["created_date"] = date("Y-m-d H-i-s");
             $this->comments["post_id"]      = $this->get["id"];
             $this->comments["user_id"]      = $this->session["user"]["id"];

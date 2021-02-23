@@ -10,7 +10,7 @@ use Twig\Error\SyntaxError;
 /**
  * Class HomeController
  * appel la page Home
- * @package App\Controller
+ * @package App\Controllers
  */
 class HomeController extends MainController
 {
