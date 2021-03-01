@@ -17,7 +17,7 @@
          */
         public function getFunctions() {
             return array(
-                new TwigFunction('url', array($this, 'url')),
+                new TwigFunction("url", array($this, "url")),
             );
         }
 
@@ -28,8 +28,8 @@
          * @return string
          */
         public function url(string $page, array $params = []) {
-            $params['access'] = $page;
-            return 'index.php?' . http_build_query($params);
+            $params["access"] = $page;
+            return "index.php?" . http_build_query($params);
         }
 
     }

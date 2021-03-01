@@ -13,7 +13,7 @@
                 <a class="nav-link" href="{{ url('posts') }}"   title="Touts les chapitres">Chapitres</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('aboutme') }}"   title="Qui suis je ?">Qui suis je ?</a>
+                <a class="nav-link" href="{{ url('about') }}"   title="Qui suis je ?">Qui suis je ?</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('contact') }}" title="Me contacter">Contact</a>
@@ -23,10 +23,13 @@
         <!-- ..... ..... Si l'utilisateur est un admin ..... ..... -->
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin') }}" title="Administration">Administration</a>
+                <a class="nav-link" href="{{ url('admin') }}"       title="Administration">Administration</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('user!logout') }}"         title="Déconnexion">Déconnexion</a>
+                <a class="nav-link" href="{{ url('user!modify') }}" title="Mon compte">Mon compte</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('user!logout') }}" title="Déconnexion">Déconnexion</a>
             </li>
 
         {% elseif session.user.status == "1" %}

@@ -33,20 +33,17 @@
         <h2 class="text-center text-underline">Voici les trois derniers chapitres pour Billet Simple pour l'Alaska</h2>
 
             <article class="row justify-content-around">
-
-                {% for post in posts|slice(0, 3)|reverse %}
+                {% for post in posts|reverse|slice(0, 3) %}
 
                     <div class="border border-secondary rounded-lg shadow-lg mt-5 p-3 col-md-11 col-lg-5 col-xl-3">
-
                         <h3 class="border border-primary rounded-lg bg-my-lightblue text-center text-underline">{{ post.title }}</h3>
-                        <p>{{ post.content|nl2br }}</p>
-
+                        <p>
+                                {{ post.content|raw }}
+                        </p>
                     </div>
 
                 {% endfor %}
-
             </article>
-
     </section>
 
 {% endblock %}

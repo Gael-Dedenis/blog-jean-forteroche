@@ -58,12 +58,12 @@
          * Créer le nouveau commentaire.
          */
         private function setNewComment() {
-            $this->comments["content"]      = $this->post["comment"];
+            $this->comments["content"]      = addslashes($this->post["comment"]);
             $this->comments["created_date"] = date("Y-m-d H-i-s");
             $this->comments["post_id"]      = $this->get["id"];
             $this->comments["user_id"]      = $this->session["user"]["id"];
 
-            ModelFactory::getModel('Comments')->createData([
+            ModelFactory::getModel("Comments")->createData([
                 "content"      => $this->comments["content"],
                 "created_date" => $this->comments["created_date"],
                 "post_id"      => $this->comments["post_id"],
@@ -79,11 +79,12 @@
          */
         public function deleteMethod()
         {
-            ModelFactory::getModel('Comments')->deleteData($this->get['id']);
-
-            $this->chapter = $this->get["chapter"];
-
-            $this->refreshComments($this->chapter);
+            if (!empty($this->get["id"])) {
+                ModelFactory::getModel("Comments")->deleteData($this->get["id"]);
+                $this->chapter = $this->get["chapter"];
+                $this->refreshComments($this->chapter);
+            }
+            $this->redirect("home");
         }
 
         /**
@@ -94,11 +95,12 @@
          */
         public function reportMethod()
         {
-            ModelFactory::getModel('Comments')->updateData($this->get["id"], ['reported' => 1]);
-
-            $this->chapter = $this->get["chapter"];
-
-            $this->refreshComments($this->chapter);
+            if (!empty($this->get["id"])) {
+                ModelFactory::getModel("Comments")->updateData($this->get["id"], ["reported" => 1]);
+                $this->chapter = $this->get["chapter"];
+                $this->refreshComments($this->chapter);
+            }
+            $this->redirect("home");
         }
 
         /**
@@ -108,10 +110,14 @@
          * @throws SyntaxError
          */
         public function adminMethod() {
-            $this->comments["reported"]  = ModelFactory::getModel('Comments')->listData("1", "reported");
+            if($this->checkAdmin()) {
+            $this->comments["reported"]  = ModelFactory::getModel("Comments")->listData("1", "reported");
             $this->comments["authors"]   = ModelFactory::getModel("Users")->listData();
 
             return $this->render("backend/admin_reported.twig", ["comments" => $this->comments]);
+            }
+            $this->redirect("user");
+
         }
 
         /**
@@ -121,10 +127,12 @@
          * @throws SyntaxError
          */
         public function unreportMethod() {
-            ModelFactory::getModel('Comments')->updateData($this->get["id"], ['reported' => 0]);
-
-            $this->redirect("comments!admin");
-        }
+            if($this->checkAdmin()) {
+                ModelFactory::getModel("Comments")->updateData($this->get["id"], ["reported" => 0]);
+                $this->redirect("comments!admin");
+            }
+            $this->redirect("user");
+            }
 
         /**
          * @return string
@@ -133,8 +141,10 @@
          * @throws SyntaxError
          */
         public function cleanMethod() {
-            ModelFactory::getModel('Comments')->deleteData($this->get['id']);
-
-            $this->redirect("comments!admin");
+            if($this->checkAdmin()) {
+                ModelFactory::getModel("Comments")->deleteData($this->get["id"]);
+                $this->redirect("comments!admin");
+            }
+            $this->redirect("user");
         }
     }

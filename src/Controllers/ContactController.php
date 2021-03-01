@@ -2,6 +2,9 @@
 
     namespace App\Controllers;
 
+    use Swift_SmtpTransport;
+    use Swift_Mailer;
+    use Swift_Message;
     use Twig\Error\LoaderError;
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
@@ -30,8 +33,7 @@
                 return $this->render("contact.twig");
             } else {
                 $this->sendMethod();
-
-                $this->redirect("contact");
+                $this->redirect("home");
             }
 
         }
@@ -46,7 +48,7 @@
             $transport = (new Swift_SmtpTransport())
                 ->setHost(MAIL_HOST)
                 ->setPort(MAIL_PORT)
-                ->setUsername(MAIL_FROM)
+                ->setUsername(MAIL_USERNAME)
                 ->setPassword(MAIL_PASS)
                 ;
 
@@ -55,10 +57,11 @@
 
             // Création du message
             $message = (new Swift_Message())
-                ->setSubject($this->post["subject"])
-                ->setFrom([MAIL_FROM => "Blog JeanForteroche"])
-                ->setTo([MAIL_TO, $this->post["email"] => $this->post["pseudo"]])
-                ->setBody($this->post["message"])
+
+                ->setFrom([MAIL_FROM => "Blog Jean Forteroche"])
+                ->setTo([MAIL_TO => "J.forteroche", htmlspecialchars($this->post["email"]) => htmlspecialchars($this->post["pseudo"])])
+                ->setSubject(htmlspecialchars($this->post["subject"]))
+                ->setBody(htmlspecialchars($this->post["message"]))
                 ;
 
             // envoie du mail

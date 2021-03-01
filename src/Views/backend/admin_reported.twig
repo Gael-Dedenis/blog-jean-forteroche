@@ -24,35 +24,36 @@
 
     <section class="container">
 
-            <ul class="list-group list-group-flush container">
+        <ul class="list-group list-group-flush container">
 
-                {% for comment in comments.reported %}
+            {% for comment in comments.reported %}
 
-                    <li class="list-group-item">
+                <li class="list-group-item">
 
-                        <p>Commentaire écrit le : {{ comment.created_date|date("d/m/Y à h:m") }}</p>
-                        <p>Par {% for author in comments.authors %}
+                    <p>Commentaire écrit le : {{ comment.created_date|date("d/m/Y à h:m") }}</p>
+                    <p>Par {% for author in comments.authors %}
 
-                            {% if comment.user_id == author.id %}
-                                {{ author.pseudo }},
-                            {% endif %}
+                    {% if comment.user_id == author.id %}
+                        {{ author.pseudo }},
+                    {% endif %}
 
-                        {% endfor %}</p>
-                        <p>{{ comment.content }}</p>
-                        <a class="btn btn-outline-danger text-danger" href="{{ url('comments!clean', {'id': comment.id}) }}">
-                            Supprimer le commentaire
-                        </a>
-                        <a class="btn btn-outline-success text-success" href="{{ url('comments!unreport', {'id': comment.id}) }}">
-                            Autoriser le commentaire
-                        </a>
+                    {% endfor %}</p>
 
-                    </li>
+                    <p>{{ comment.content }}</p>
+                    <a class="btn btn-outline-danger text-danger" href="{{ url('comments!clean', {'id': comment.id}) }}">
+                        Supprimer le commentaire
+                    </a>
+                    <a class="btn btn-outline-success text-success" href="{{ url('comments!unreport', {'id': comment.id}) }}">
+                        Autoriser le commentaire
+                    </a>
 
-                {% endfor %}
+                </li>
 
-            </ul>
+            {% endfor %}
 
-        {% endif %}
+        </ul>
+
+    {% endif %}
 
     </section>
 

@@ -26,12 +26,17 @@
          * @throws SyntaxError
         */
         public function defaultMethod() {
+            if (!$this->isLogged()) {
+                if (!empty($this->post["email"]) && !empty($this->post["pass"])) {
+                    $check = $this->checkLogUser();
 
-            if (!empty($this->post['email']) && !empty($this->post['pass'])) {
-                $this->checkLogUser();
+                    if ($check === false) {
+                        return $this->render("connexion.twig", ["erreurs" => "Email et/ou mot de passe invalide !"]);
+                    }
+                }
+                return $this->render("connexion.twig");
             }
-
-            return $this->render('connexion.twig');
+            $this->redirect("home");
         }
 
         /**
@@ -42,19 +47,19 @@
         */
         private function checkLogUser() {
 
-            $user = ModelFactory::getModel('Users')->readData($this->post['email'], 'email');
+            $this->user = ModelFactory::getModel("Users")->readData($this->post["email"], "email");
 
-            if(password_verify($this->post['pass'], $user['pass'])) {
-
+            if(password_verify($this->post["pass"], $this->user["pass"])) {
                 $this->setSession(
-                    $user['id'],
-                    $user['pseudo'],
-                    $user['email'],
-                    $user['status']
+                    $this->user["id"],
+                    $this->user["pseudo"],
+                    $this->user["email"],
+                    $this->user["status"]
                 );
-
-                $this->redirect('home');
+                $this->redirect("home");
             }
+
+            return false;
 
         }
 
@@ -66,11 +71,11 @@
          * @param string $status
          */
         private function setSession(int $id, string $pseudo, string $email, string $status) {
-            $_SESSION['user'] = [
-                'id'     => $id,
-                'pseudo' => $pseudo,
-                'email'  => $email,
-                'status' => $status
+            $_SESSION["user"] = [
+                "id"     => $id,
+                "pseudo" => $pseudo,
+                "email"  => $email,
+                "status" => $status
             ];
         }
 
@@ -82,20 +87,23 @@
         */
 
         public function createMethod() {
-            $validation = [];
+            if (!$this->isLogged()) {
+                $validation = [];
 
-            if(!empty($this->post)) {
-                $validation = $this->setCheckForms();
+                if(!empty($this->post)) {
+                    $validation = $this->setCheckForms();
+                }
+
+                if(!$validation) {
+                    $erreurs = isset($this->session["erreurs"]) ? $this->session["erreurs"] : NULL;
+                    // si $this->session["erreurs"] existe $erreurs vaudra $this->session["erreurs"] sinon vaudra "NULL"
+
+                    return $this->render("create_account.twig", ["erreurs" => $erreurs]);
+                }
+
+                return $this->render("create_account.twig");
             }
-
-            if(!$validation) {
-                $erreurs = isset($this->session["erreurs"]) ? $this->session["erreurs"] : NULL;
-                // si $this->session["erreurs"] existe $erreurs vaudra $this->session["erreurs"] sinon vaudra "NULL"
-
-                return $this->render("create_account.twig", ["erreurs" => $erreurs]);
-            }
-
-            return $this->render("create_account.twig");
+            $this->redirect("user!modify");
         }
 
         /**
@@ -134,15 +142,19 @@
          * @throws SyntaxError
          */
         public function logoutMethod() {
-            $this->unsetSession();
-            $this->redirect('user');
+            if($this->isLogged()) {
+                $this->unsetSession();
+                $this->redirect("user");
+            }
+            $this->redirect("user");
+
         }
 
         /**
          * @return void
          */
         private function unsetSession() {
-            $_SESSION['user'] = [];
+            $_SESSION["user"] = [];
         }
 
         /**
@@ -156,37 +168,42 @@
             $erreurs    = [];
             $validation = null;
 
-            if(!empty($this->post)) {
-                $validation = $this->setCheckChange();
-            }
-
-            if(!$validation) {
-
-                $erreurs = isset($this->session["erreurs"]) ? $this->session["erreurs"] : NULL;
-                // si $this->session["erreurs"] existe $erreurs vaudra $this->session["erreurs"] sinon vaudra "NULL"
-
-                return $this->render("account.twig", ["erreurs" => $erreurs]);
-
-            } elseif ($validation) {
-                if(!$this->post["email"] === null || !$this->post["email"] === "" || !empty($this->post["email"])) {
-
-                    $newData["email"] = $this->post["email"];
-
-                    $_SESSION["user"]["email"] = $this->post["email"];
-
-                } elseif(!$this->post["pass"] === null || !$this->post["pass"] === "" || !empty($this->post["pass"])) {
-
-                    $newData["pass"] = password_hash( $this->post["pass"], PASSWORD_DEFAULT);
-
+            if ($this->isLogged()) {
+                if(!empty($this->post)) {
+                    $validation = $this->setCheckChange();
                 }
 
-                 ModelFactory::getModel("Users")->updateData($this->session["user"]["id"], $newData);
+                if(!$validation) {
 
-                 $this->redirect("user!modify");
+                    $erreurs = isset($this->session["erreurs"]) ? $this->session["erreurs"] : NULL;
+                    // si $this->session["erreurs"] existe $erreurs vaudra $this->session["erreurs"] sinon vaudra "NULL"
+
+                    return $this->render("account.twig", ["erreurs" => $erreurs]);
+
+                } elseif ($validation) {
+                    if(!$this->post["email"] === null || !$this->post["email"] === "" || !empty($this->post["email"])) {
+
+                        $newData["email"] = $this->post["email"];
+
+                        $_SESSION["user"]["email"] = $this->post["email"];
+
+                    } elseif(!$this->post["pass"] === null || !$this->post["pass"] === "" || !empty($this->post["pass"])) {
+
+                        $newData["pass"] = password_hash( $this->post["pass"], PASSWORD_DEFAULT);
+
+                    }
+
+                    ModelFactory::getModel("Users")->updateData($this->session["user"]["id"], $newData);
+
+                    $this->redirect("user!modify");
+                }
+
+                $_Session["erreurs"] = [];
+                return $this->render("account.twig");
             }
 
-            $_Session["erreurs"] = [];
-            return $this->render("account.twig");
+            $this->redirect("user");
+
         }
 
         /**
@@ -220,14 +237,17 @@
          */
         public function deleteMethod()
         {
-            $getCommentsUser = ModelFactory::getModel("Comments")->listData($this->session["user"]["id"], "user_id");
+            if ($this->isLogged()) {
+                $getCommentsUser = ModelFactory::getModel("Comments")->listData($this->session["user"]["id"], "user_id");
 
-             if(!empty($getCommentsUser)) {
-                ModelFactory::getModel("Comments")->deleteData($this->session["user"]["id"], "user_id");
+                if(!empty($getCommentsUser)) {
+                    ModelFactory::getModel("Comments")->deleteData($this->session["user"]["id"], "user_id");
+                }
+
+                ModelFactory::getModel("Users")->deleteData($this->session["user"]["id"], "id");
+
+                $this->logoutMethod();
             }
-
-            ModelFactory::getModel("Users")->deleteData($this->session["user"]["id"], "id");
-
-            $this->logoutMethod();
+            $this->redirect("user");
         }
     }

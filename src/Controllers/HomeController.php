@@ -10,7 +10,7 @@ use Twig\Error\SyntaxError;
 /**
  * Class HomeController
  * appel la page Home
- * @package App\Controller
+ * @package App\Controllers
  */
 class HomeController extends MainController
 {
@@ -23,10 +23,10 @@ class HomeController extends MainController
      */
     public function defaultMethod()
     {
-        $lastPost = ModelFactory::getModel('Posts')->listData();
+        $lastPost = ModelFactory::getModel("Posts")->listData();
         // utilisation de "ModelFactory::" grace à la définition de la méhtode en "static".
 
-        return $this->render('home.twig', ['posts' => $lastPost]);
+        return $this->render("home.twig", ["posts" => $lastPost]);
     }
 
 }

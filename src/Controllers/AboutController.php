@@ -7,20 +7,18 @@
     use Twig\Error\SyntaxError;
 
     /**
-     * Class AboutMeController
-     * @package App\Controller
+     * Class AboutController
+     * @package App\Controllers
      */
-    class AboutMeController extends MainController
+    class AboutController extends MainController
     {
         /**
-         * Rendu de la vue Qui suis-je
          * @return string
          * @throws LoaderError
          * @throws RuntimeError
          * @throws SyntaxError
          */
-        public function defaultMethod()
-        {
-            return $this->render('aboutme.twig');
+        public function defaultMethod() {
+            return $this->render("aboutme.twig");
         }
     }

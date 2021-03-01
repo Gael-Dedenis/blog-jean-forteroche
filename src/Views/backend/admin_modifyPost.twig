@@ -21,13 +21,16 @@
             <div class="form-group col-6 offset-3">
 
                 <label for="chapter_title" class="col-sm-4 col-form-label">Titre du chapitre</label>
-                <input type="text" class="form-control" id="chapter_title" name="chapter_title" placeholder="Titre" value="{{ chapterToModify.title }}" required>
+                <input type="text" class="form-control" id="chapter_title" name="chapter_title" placeholder="Titre" value="{{ chapterToModify.title|raw }}" required>
 
             </div>
 
             <div class="form-group">
+
                 <label for="chapter_content">Contenu du chapitre</label>
-                <textarea id="chapter_content" name="chapter_content"> {{ chapterToModify.content }} </textarea>
+
+                <textarea id="chapter_content" name="chapter_content"> {{ chapter_content|raw }} </textarea>
+
             </div>
 
             <div class="d-none">

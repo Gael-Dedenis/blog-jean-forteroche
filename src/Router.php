@@ -2,7 +2,7 @@
 
     namespace App;
 
-    require_once "../config/config.php";
+    require_once "../config/config_dev.php";
 
     use App\Controllers\ExtensionFeaturesTwig;
     use Twig\Environment;
