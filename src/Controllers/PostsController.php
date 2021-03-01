@@ -44,9 +44,11 @@
          * @throws SyntaxError
          */
         public function readMethod() {
-            $this->getData($this->get["id"]);
-
-            return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
+            if (!empty($this->get["id"])) {
+                $this->getData($this->get["id"]);
+                return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
+            }
+            $this->redirect("posts");
         }
 
         /**
@@ -71,15 +73,17 @@
          * @throws SyntaxError
          */
         public function createMethod() {
+            if ($this->checkAdmin()) {
+                if (!empty($this->post)) {
+                    $this->getNewData($this->type = "");
 
-            if (!empty($this->post)) {
-                $this->getNewData($this->type = "");
+                    ModelFactory::getModel("Posts")->createData($this->chapter);
+                    $this->redirect("admin");
+                }
 
-                ModelFactory::getModel('Posts')->createData($this->chapter);
-                $this->redirect("admin");
+                return $this->render("backend/admin_createChapter.twig");
             }
-
-            return $this->render("backend/admin_createChapter.twig");
+            $this->redirect("user");
         }
 
         /**
@@ -90,18 +94,21 @@
          */
         public function modifyMethod()
         {
-            if(!empty($this->post)) {
-                $this->getNewData($this->type = "modify");
+            if ($this->checkAdmin()) {
+                if(!empty($this->post)) {
+                    $this->getNewData($this->type = "modify");
 
-                ModelFactory::getModel('Posts')->updateData($this->post["chapter_id"], $this->chapter);
+                    ModelFactory::getModel('Posts')->updateData($this->post["chapter_id"], $this->chapter);
 
-                $this->redirect("admin");
+                    $this->redirect("admin");
+                }
+
+                $this->chapter["selectedPost"]    = ModelFactory::getModel("Posts")->readData($this->get["id"]);
+                $this->chapter["chapter_content"] = $this->chapter["selectedPost"]["content"];
+
+                return $this->render("backend/admin_modifyPost.twig", ["chapterToModify" => $this->chapter["selectedPost"], "chapter_content" => $this->chapter["chapter_content"]]);
             }
-
-            $this->chapter["selectedPost"]    = ModelFactory::getModel('Posts')->readData($this->get["id"]);
-            $this->chapter["chapter_content"] = $this->chapter["selectedPost"]["content"];
-
-            return $this->render("backend/admin_modifyPost.twig", ["chapterToModify" => $this->chapter["selectedPost"], "chapter_content" => $this->chapter["chapter_content"]]);
+            $this->redirect("user");
         }
 
         /**
@@ -137,15 +144,19 @@
 
         public function deleteMethod()
         {
-            $this->chapter["allPost"]     = ModelFactory::getModel("Posts")->readData($this->post["chapterSelect"], "title");
-            $this->chapter["allComments"] = ModelFactory::getModel("Comments")->listData($this->chapter["allPost"]["id"], "post_id");
+            if ($this->checkAdmin()) {
+                $this->chapter["allPost"]     = ModelFactory::getModel("Posts")->readData($this->post["chapterSelect"], "title");
+                $this->chapter["allComments"] = ModelFactory::getModel("Comments")->listData($this->chapter["allPost"]["id"], "post_id");
 
-            if(!empty($this->chapter["allComments"])) {
-                ModelFactory::getModel("Comments")->deleteData($this->chapter["allPost"]["id"], "post_id");
+                if(!empty($this->chapter["allComments"])) {
+                    ModelFactory::getModel("Comments")->deleteData($this->chapter["allPost"]["id"], "post_id");
+                    }
+
+                    ModelFactory::getModel("Posts")->deleteData($this->chapter["allPost"]["id"]);
+
+                $this->redirect("admin");
             }
 
-            ModelFactory::getModel("Posts")->deleteData($this->chapter["allPost"]["id"]);
-
-            $this->redirect("admin");
+            $this->redirect("user");
         }
     }
