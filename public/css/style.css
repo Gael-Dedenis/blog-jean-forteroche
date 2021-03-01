@@ -42,10 +42,8 @@ blockquote p {
   min-height: 850px;
 }
 
-.max-width-img {
-  max-width: 350px;
-}
-
 .text-underline {
   text-decoration: underline;
 }
+
+
