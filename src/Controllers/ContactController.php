@@ -33,7 +33,6 @@
                 return $this->render("contact.twig");
             } else {
                 $this->sendMethod();
-
                 $this->redirect("home");
             }
 
@@ -59,8 +58,8 @@
             // Création du message
             $message = (new Swift_Message())
 
-                ->setFrom([MAIL_FROM])
-                ->setTo([MAIL_TO, htmlspecialchars($this->post["email"]) => htmlspecialchars($this->post["pseudo"])])
+                ->setFrom([MAIL_FROM => "Blog Jean Forteroche"])
+                ->setTo([MAIL_TO => "J.forteroche", htmlspecialchars($this->post["email"]) => htmlspecialchars($this->post["pseudo"])])
                 ->setSubject(htmlspecialchars($this->post["subject"]))
                 ->setBody(htmlspecialchars($this->post["message"]))
                 ;
