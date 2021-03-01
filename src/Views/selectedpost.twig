@@ -83,7 +83,7 @@
                                             {% endif %}
 
                                         {% endfor %}, le {{ comment.created_date|date("d/m/Y à h:m") }} :<br>
-                                            {{ comment.content|nl2br }}
+                                            {{ comment.content|raw }}
                                     </p>
 
                                     <ul class="list-group list-group-horizontal">
