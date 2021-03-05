@@ -8,17 +8,17 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center text-underline hight-margin">Créer un compte</h1>
+    <h1 class="account-m text-center text-underline">Créer un compte</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <div class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-3">
+    <div class="container account-m-c p-3 border border-secondary rounded-lg shadow-lg text-center">
 
         <form class="form-group" action="{{ url('user!create') }}" method="post" novalidate>
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-lg-6 offset-lg-3">
 
                 <label for="pseudo" class="col-sm-4 col-form-label">pseudo</label>
                 <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="(Caractères alphanumériques et underscore uniquement)" required>
@@ -26,12 +26,12 @@
             </div>
 
             {% if erreurs.pseudo is not empty %}
-                <p class="border border-danger rounded-lg p-2">
+                <p class="col-lg-6 offset-lg-3 p-2 border border-danger rounded-lg text-danger">
                     {{ erreurs.pseudo }}
                 </p>
             {% endif %}
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-lg-6 offset-lg-3">
 
                 <label for="email" class="col-sm-4 col-form-label">email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="john@doe.gmail" required>
@@ -39,19 +39,19 @@
             </div>
 
             {% if erreurs.email is not empty %}
-                <p class="border border-danger rounded-lg p-2">
+                <p class="col-lg-6 offset-lg-3 p-2 border border-danger rounded-lg text-danger">
                     {{ erreurs.email }}
                 </p>
             {% endif %}
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-lg-6 offset-lg-3">
 
                 <label for="pass" class="col-sm-4 col-form-label">Mot de passe</label>
                 <input type="password" class="form-control" id="pass" name="pass" autocomplete="off" required>
 
             </div>
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-lg-6 offset-lg-3">
 
                 <label for="pass_confirm" class="col-sm-4 col-form-label">Confirmez mot de passe</label>
                 <input type="password" class="form-control" id="pass_confirm" name="pass_confirm" autocomplete="off" required>
@@ -59,7 +59,7 @@
             </div>
 
             {% if erreurs.pass is not empty %}
-                <p class="border border-danger rounded-lg p-2">
+                <p class="col-lg-6 offset-lg-3 p-2 border border-danger rounded-lg text-danger">
                     {{ erreurs.pass }}
                 </p>
             {% endif %}

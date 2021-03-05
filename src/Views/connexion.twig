@@ -8,30 +8,30 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center text-underline hight-margin">Se connecter</h1>
+    <h1 class="connexion-m text-center text-underline">Se connecter</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <section class="container text-center hight-margin-b border border-secondary rounded-lg shadow-lg p-4">
+    <section class="container connexion-m-c p-4 border border-secondary rounded-lg shadow-lg text-center">
 
         {% if erreurs is not empty %}
-            <div class="border border-danger rounded-lg p-2">
+            <div class="p-2 border border-danger rounded-lg text-danger">
                 {{ erreurs }}
             </div>
         {% endif %}
 
         <form method='post' action='{{ url("user") }}' class="form-group">
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-lg-6 offset-lg-3">
 
-                <label for="email" class="col-sm-4 col-form-label">email</label>
+                <label for="email" class="col-sm-4 col-form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="john@doe.gmail" required>
 
             </div>
 
-            <div class="form-group col-6 offset-3">
+            <div class="form-group col-lg-6 offset-lg-3">
 
                 <label for="pass" class="col-sm-4 col-form-label">Mot de passe</label>
                 <input type="password" class="form-control" id="pass" name="pass" autocomplete="off" required>
@@ -42,7 +42,7 @@
 
         </form>
 
-        <h2 class="mg-y small-margin">Pas de compte ?</h2>
+        <h2>Pas de compte ?</h2>
         <p>Créez un compte <a href='{{ url("user!create") }}'>ici</a>.</p>
 
     </section>
