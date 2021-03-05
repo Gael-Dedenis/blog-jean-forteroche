@@ -7,12 +7,13 @@
 {% endblock %}
 
 {% block header %}
-    <div class="container-md">
+
+    <div class="container-sm">
         <h1 class="mg-y text-center mb-5 mt-5">Tous les chapitres -Billet simple pour l'Alaska</h1>
 
-        <figure class="container border border-secondary shadow-lg p-3 rounded-lg">
+        <figure class="container border border-secondary shadow-lg p-4 rounded-lg">
             <img src="../public/images/into_the_wild.jpg" class="img-fluid rounded-lg mg-y" alt="Photo du célèbre bus de 'Into the wild' en Alaska.">
-            <figcaption>
+            <figcaption class="mt-4">
                 <blockquote>
                     <p>
                         Un premier pas vers l'inconnu, peut entrainer des magnifiques voyages.
@@ -23,30 +24,33 @@
         </figure>
 
     </div>
+
 {% endblock %}
 
 {% block content %}
-    <section class="container medium-margin">
-        <h2 class="mg-y text-center text-underline">Sélectionnez le chapitre que vous voulez lire:</h2>
 
-            <ul class="list-group list-group-flush container">
+    <section class="container mt-5 mb-5">
 
-                {% for post in posts %}
+        <h2 class="mg-y text-center text-underline mb-3">Sélectionnez le chapitre que vous voulez lire:</h2>
 
-                    <li class="list-group-item">
-                        <a href="{{ url('posts!read', {'id': post.id}) }}">{{ post.title }}</a>
-                    </li>
+        <ul class="list-group list-group-flush container mb-4">
 
-                {% endfor %}
+            {% for post in posts %}
 
-            </ul>
+                <li class="list-group-item mt-2 mb-2">
+                    <a href="{{ url('posts!read', {'id': post.id}) }}">{{ post.title }}</a>
+                </li>
+
+            {% endfor %}
+
+        </ul>
 
         {% if session.user.status == "2" %}
 
-            <a class="btn btn-outline-primary offset-1 mt-4" href="{{ url('posts!create') }}">Ajouter un nouveau chapitre</a>
+            <a class="btn btn-outline-primary offset-1 mt-3 mb-3" href="{{ url('posts!create') }}">Ajouter un nouveau chapitre</a>
 
         {% endif %}
-    
+
     </section>
 
 {% endblock %}

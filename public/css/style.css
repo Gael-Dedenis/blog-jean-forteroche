@@ -15,35 +15,162 @@ blockquote p {
   font-size: 25px;
 }
 
-.hight-margin {
-  margin-top: 13vh;
-  margin-bottom: 4vh;
+.h-min-xl {
+  min-height: 900px;
 }
 
-.medium-margin {
-  margin-top: 3vh;
-  margin-bottom: 7vh;
-}
-
-.small-margin {
-  margin-top: 3vh;
-  margin-bottom: 5vh;
-}
-
-.hight-margin-b {
-  margin-bottom: 23vh;
-}
-
-.height-min {
-  min-height: 600px;
-}
-
-.height-min-xl {
-  min-height: 850px;
+.h-120px {
+  height: 120px;
 }
 
 .text-underline {
   text-decoration: underline;
 }
 
+.contact-m {
+  margin-top: 6vh;
+  margin-bottom: 6vh;
+}
 
+.contact-m-c {
+  margin-top: 6vh;
+  margin-bottom: 6vh;
+}
+
+.connexion-m {
+  margin-top: 6vh;
+  margin-bottom: 6vh;
+}
+
+.connexion-m-c {
+  margin-top: 6vh;
+  margin-bottom: 6vh;
+}
+
+.account-m {
+  margin-top: 6vh;
+  margin-bottom: 6vh;
+}
+
+.account-m-c {
+  margin-top: 6vh;
+  margin-bottom: 6vh;
+}
+
+/* ++++++++++++++++++++++++++++  Breakpoint à 768px  ++++++++++++++++++++++++++++ */
+
+@media screen and (min-width: 768px) {
+
+  .contact-m {
+    margin-top: 7vh;
+    margin-bottom: 3vh;
+  }
+
+  .contact-m-c {
+    margin-top: 6vh;
+    margin-bottom: 6vh;
+  }
+
+  .connexion-m {
+    margin-top: 13vh;
+    margin-bottom: 3vh;
+  }
+
+  .connexion-m-c {
+    margin-top: 6vh;
+    margin-bottom: 17vh;
+  }
+
+  .account-m {
+    margin-top: 10vh;
+    margin-bottom: 3vh;
+  }
+
+  .account-m-c {
+    margin-top: 6vh;
+    margin-bottom: 17vh;
+  }
+
+}
+
+/* ++++++++++++++++++++++++++++  Breakpoint à 1920px  ++++++++++++++++++++++++++++ */
+
+@media screen and (min-width: 1920px) {
+
+  .contact-m {
+    margin-top: 9vh;
+    margin-bottom: 2vh;
+  }
+
+  .contact-m-c {
+    margin-top: 6vh;
+    margin-bottom: 10vh;
+  }
+
+  .connexion-m {
+    margin-top: 18vh;
+    margin-bottom: 3vh;
+  }
+
+  .connexion-m-c {
+    margin-top: 6vh;
+    margin-bottom: 17vh;
+  }
+
+  .account-m {
+    margin-top: 6vh;
+    margin-bottom: 3vh;
+  }
+  
+  .account-m-c {
+    margin-top: 6vh;
+    margin-bottom: 20vh;
+  }
+
+}
+
+/* ++++++++++++++++++++++++++++  Breakpoint à 2560px  ++++++++++++++++++++++++++++ */
+
+@media screen and (min-width: 2560px) {
+
+  .contact-m {
+    margin-top: 14vh;
+    margin-bottom: 2vh;
+  }
+
+  .contact-m-c {
+    margin-top: 6vh;
+    margin-bottom: 16.6vh;
+  }
+
+  .create-m {
+    margin-top: 8vh;
+    margin-bottom: 9vh;
+  }
+
+  .modify-m {
+    margin-top: 8vh;
+    margin-bottom: 9vh;
+  }
+
+  .connexion-m {
+    margin-top: 17vh;
+    margin-bottom: 3vh;
+  }
+
+  .connexion-m-c {
+    margin-top: 6vh;
+    margin-bottom: 28vh;
+  }
+
+  .account-m {
+    margin-top: 10vh;
+    margin-bottom: 3vh;
+  }
+  
+  .account-m-c {
+    margin-top: 6vh;
+    margin-bottom: 30vh;
+  }
+
+}

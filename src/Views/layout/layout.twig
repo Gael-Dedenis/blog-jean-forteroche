@@ -55,14 +55,14 @@
         </header>
 
         <!-- ........... Contenu Principal........... -->
-        <main class="container-fluid flex-grow-1">
+        <main class="container-fluid">
 
             {% block content %}{% endblock %}
 
         </main>
 
         <!-- ........... Footer ........... -->
-        <footer class="container-fluid">
+        <footer class="container-fluid p-3 h-120px bg-dark">
 
             {{ include ("layout/footer.twig") }}
 
@@ -81,7 +81,7 @@
             force_p_newlines : false,
             nonbreaking_force_tab: true,
             entity_encoding: "raw",
-            element_format : 'html',
+            element_format : "html",
             protect: [
             /\<\/?(if|endif)\>/g,  // Protect <if> & </endif>
             /\<xsl\:[^>]+\>/g,  // Protect <xsl:...>
