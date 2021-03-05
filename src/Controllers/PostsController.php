@@ -46,6 +46,10 @@
         public function readMethod() {
             if (!empty($this->get["id"])) {
                 $this->getData($this->get["id"]);
+                if (empty($this->chapter["title"]) || empty($this->chapter["content"]) || empty($this->chapter["created_date"])) {
+                    echo "erreur !";
+                    $this->redirect("posts");
+                }
                 return $this->render("selectedpost.twig", ["chapter" => $this->chapter]);
             }
             $this->redirect("posts");
@@ -59,7 +63,6 @@
          */
         private function getData(string $id_chapter) {
             $this->chapter                     = ModelFactory::getModel("Posts")->readData($id_chapter);
-            $this->chapter["chapter_content"]  = $this->chapter["content"];
             $this->chapter["comments"]         = ModelFactory::getModel("Comments")->listData($id_chapter,"post_id");
             $this->chapter["comments_authors"] = ModelFactory::getModel("Users")->listData();
 
