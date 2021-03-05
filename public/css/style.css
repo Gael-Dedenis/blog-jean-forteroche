@@ -57,10 +57,7 @@ blockquote p {
   margin-bottom: 6vh;
 }
 
-/* ++++++++++++++++++++++++++++  Breakpoint à 768px  ++++++++++++++++++++++++++++ */
-
 @media screen and (min-width: 768px) {
-
   .contact-m {
     margin-top: 7vh;
     margin-bottom: 3vh;
@@ -90,13 +87,11 @@ blockquote p {
     margin-top: 6vh;
     margin-bottom: 17vh;
   }
-
 }
 
 /* ++++++++++++++++++++++++++++  Breakpoint à 1920px  ++++++++++++++++++++++++++++ */
 
 @media screen and (min-width: 1920px) {
-
   .contact-m {
     margin-top: 9vh;
     margin-bottom: 2vh;
@@ -121,18 +116,16 @@ blockquote p {
     margin-top: 6vh;
     margin-bottom: 3vh;
   }
-  
+
   .account-m-c {
     margin-top: 6vh;
     margin-bottom: 20vh;
   }
-
 }
 
 /* ++++++++++++++++++++++++++++  Breakpoint à 2560px  ++++++++++++++++++++++++++++ */
 
 @media screen and (min-width: 2560px) {
-
   .contact-m {
     margin-top: 14vh;
     margin-bottom: 2vh;
@@ -167,10 +160,9 @@ blockquote p {
     margin-top: 10vh;
     margin-bottom: 3vh;
   }
-  
+
   .account-m-c {
     margin-top: 6vh;
     margin-bottom: 30vh;
   }
-
 }
