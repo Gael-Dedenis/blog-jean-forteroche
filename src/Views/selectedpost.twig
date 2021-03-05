@@ -4,17 +4,17 @@
 
 {% block header %}
 
-    <h1 class="mg-y text-center text-underline mb-5 mt-5">Lecture du {{ chapter.title|raw }}</h1>
+    <h1 class="mb-5 mt-5 p-2 text-center text-underline">Lecture du {{ chapter.title|raw }}</h1>
 
 {% endblock %}
 
 {% block content %}
 
-    <article class="container border border-secondary rounded-lg shadow-lg p-5 height-min">
+    <article class="container p-5 border border-secondary rounded-lg shadow-lg">
 
         <div class="container d-inline align-middle">
 
-            <p class="pt-3">{{ chapter.chapter_content|raw }}</p>
+            <p>{{ chapter.content|raw }}</p>
 
         </div>
 
@@ -25,105 +25,97 @@
         {% if session.user is not empty %}
 
             <div class="container">
-
                 <section class="container">
-
                     <form action="{{ url('comments!create', {'id':chapter.id}) }}" method="post" onSubmit="window.location.reload()">
+                        <div class="form-group text-center">
 
-                        <div class="form-group">
-
-                            <label for="comment" class="col-sm-6 offset-3 col-form-label">
-                                <h3 class="text-center text-underline">Ajouter un commentaire</h3>
+                            <label for="comment" class="col-form-label">
+                                <h3 class="text-underline">Ajouter un commentaire</h3>
                             </label>
 
                              <div>
-                                <textarea id="comment" class="col-sm-12" name="comment" rows="6"></textarea>
+                                {% autoescape %}
+                                    <textarea id="comment" class="container" name="comment" rows="8"></textarea>
+                                {% endautoescape %}
                             </div>
 
                             <button type="submit" class="btn btn-outline-primary mt-3 pl-4 pr-4">Envoyer</button>
 
                         </div>
-
                     </form>
-
                 </section>
+            </div>
 
-            </div> 
+        {% else %}
+
+            <div class="container text-center mt-5 mb-5">
+                <p>Pour ajouter un commentaire, vous devez vous connecter avec votre compte utilisateur.</p>
+                <a class="text-primary" href="{{ url('user') }}">Se connecter</a>
+            </div>
 
         {% endif %}
 
         {% if chapter.comments is empty %}
 
+            <div class="container mt-5 mb-5 p-5 h-120px border border-secondary rounded-lg shadow-lg text-center">
+
+                <p>Il n'y a pas de commentaire.</p>
+
+            </div>
+
         {% else %}
 
-            <div class="col-6 offset-3 p-3 border border-secondary shadow-lg rounded-lg mt-3 mb-5">
+            <div class="container mt-5 mb-5 p-2 border border-secondary shadow-lg rounded-lg">
 
                 <ul class="list-group list-group-flush">
-
                     {% for comment in chapter.comments|reverse %}
 
                         {% if comment.reported >= 1 %}
                             <!-- Si le commentaire est pinger "reported" on l'affiche comme signalé -->
 
-                            <li class="list-group-item">
+                            <li class="list-group-item mt-2">
                                 <p> Commentaire signalé ! </p>
                             </li>
-
                         {% else %}
-
                             <li class="list-group-item">
 
                                 <div class="container">
 
                                     <p>
                                         Écrit par {% for author in chapter.comments_authors %}
-
                                             {% if comment.user_id == author.id %}
                                                 {{ author.pseudo }}
                                             {% endif %}
-
                                         {% endfor %}, le {{ comment.created_date|date("d/m/Y à h:m") }} :<br>
                                             {{ comment.content }}
                                     </p>
 
                                     <ul class="list-group list-group-horizontal">
-
                                         {% if session.user.id == comment.user_id %}
-
                                             <li class="list-group-item text-center">
                                                 <a class="text-secondary" href="{{ url('comments!delete', {'id': comment.id, 'chapter': chapter.id})}}">
                                                     Supprimer
                                                 </a>
                                             </li>
-
                                         {% endif %}
 
                                         <li class="list-group-item text-center">
                                             <a class="text-danger" href="{{ url('comments!report', {'id': comment.id, 'chapter': chapter.id})}}">
                                                 Signaler
                                             </a>
-
                                         </li>
-
                                     </ul>
-
                                 </div>
-
                             </li>
-
                         {% endif %}
 
                     {% endfor %}
-
                 </ul>
-
             </div>
-
         {% endif %}
-
     </section>
 
-    <h4 class="container mt-3">
+    <h4 class="container mt-3 mb-5">
         <a href="{{ url('posts') }}">Retour à la sélection de chapitre</a>
     </h4>
 
