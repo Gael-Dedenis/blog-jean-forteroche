@@ -30,8 +30,16 @@
                 if (!empty($this->post["email"]) && !empty($this->post["pass"])) {
                     $check = $this->checkLogUser();
 
-                    if ($check === false) {
+                    if (!$check) {
                         return $this->render("connexion.twig", ["erreurs" => "Email et/ou mot de passe invalide !"]);
+                    } else {
+                        $this->setSession(
+                            $this->user["id"],
+                            $this->user["pseudo"],
+                            $this->user["email"],
+                            $this->user["status"]
+                        );
+                        $this->redirect("home");
                     }
                 }
                 return $this->render("connexion.twig");
@@ -46,21 +54,13 @@
          * @return array
         */
         private function checkLogUser() {
-
             $this->user = ModelFactory::getModel("Users")->readData($this->post["email"], "email");
 
-            if(password_verify($this->post["pass"], $this->user["pass"])) {
-                $this->setSession(
-                    $this->user["id"],
-                    $this->user["pseudo"],
-                    $this->user["email"],
-                    $this->user["status"]
-                );
-                $this->redirect("home");
+            if (empty($this->user)) {
+                return false;
             }
 
-            return false;
-
+            return password_verify($this->post["pass"], $this->user["pass"]);
         }
 
         /**
